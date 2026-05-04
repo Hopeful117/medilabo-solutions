@@ -1,4 +1,4 @@
-package com.Medilabo_solutions.Patient_service.Model;
+package com.Medilabo_solutions.Patient_service.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class Patient {
 
-    public static enum Gender{
+    public enum Gender{
         M,
         F
     }
