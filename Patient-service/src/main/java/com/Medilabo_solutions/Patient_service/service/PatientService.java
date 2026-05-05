@@ -21,6 +21,6 @@ public interface PatientService {
 
     List<Patient> getPatientsByLastName(String lastName);
 
-    Optional<Patient> getPatientByLastNameAndFirstName(String lastName, String firstName);
+    Patient getPatientByLastNameAndFirstName(String lastName, String firstName);
 
 }

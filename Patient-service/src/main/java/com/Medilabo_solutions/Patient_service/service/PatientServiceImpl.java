@@ -99,14 +99,16 @@ public class PatientServiceImpl implements PatientService {
      * Retrieves a patient by their last name and first name.
      * @param lastName the last name of the patient
      * @param firstName the first name of the patient
-     * @return an Optional containing the patient if found, or empty if not found
+     * @return the patient with the specified last name and first name
+     * @throws ResourceNotFoundException if no patient is found with the given last name and first name
      */
     @Override
-    public Optional <Patient> getPatientByLastNameAndFirstName(String lastName, String firstName) {
-       if(!patientRepository.existsByLastNameAndFirstName(lastName, firstName)) {
-           throw new ResourceNotFoundException("Patient not found with name: " + firstName + " " + lastName);
-       }
-        return Optional.ofNullable(patientRepository.findByLastNameAndFirstName(lastName, firstName));
+    public Patient getPatientByLastNameAndFirstName(String lastName, String firstName) {
+        return patientRepository.findByLastNameAndFirstName(lastName, firstName)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Patient not found with name: " + firstName + " " + lastName
+                ));
+
     }
 }
 
