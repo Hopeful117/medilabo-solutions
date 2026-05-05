@@ -1,7 +1,9 @@
 package com.Medilabo_solutions.Patient_service.dto;
 
 import java.time.LocalDate;
-
+/**
+ * DTO for sending patient data in responses.
+ */
 public class PatientResponseDTO {
     public long id;
     public String firstName;

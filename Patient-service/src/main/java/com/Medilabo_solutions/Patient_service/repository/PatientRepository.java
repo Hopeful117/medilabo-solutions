@@ -5,6 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+/**
+ * Repository interface for managing Patient entities.
+ * Extends JpaRepository to provide CRUD operations and custom query methods.
+ */
 public interface PatientRepository extends JpaRepository<Patient, Long> {
     List<Patient>findByLastName(String lastName);
     Patient findByLastNameAndFirstName(String lastName, String firstName);

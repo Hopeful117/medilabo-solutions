@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
+/**
+ * DTO for creating or updating a patient.
+ */
 public class PatientRequestDTO {
     @NotBlank(message = "First name is required")
     public String firstName;

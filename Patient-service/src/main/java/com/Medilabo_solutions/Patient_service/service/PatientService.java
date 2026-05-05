@@ -5,6 +5,9 @@ import com.Medilabo_solutions.Patient_service.model.Patient;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service interface for managing patients.
+ */
 public interface PatientService {
     List<Patient> getAllPatients();
 

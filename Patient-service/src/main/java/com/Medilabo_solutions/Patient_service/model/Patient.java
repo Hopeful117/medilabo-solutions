@@ -9,6 +9,10 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a patient in the medical system.
+ * Contains personal information such as name, date of birth
+ */
 @Entity
 @Table(name = "patients")
 @Getter

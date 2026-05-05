@@ -11,22 +11,41 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Global exception handler for the Patient Service application.
+ * Handles various exceptions and returns appropriate HTTP responses with error details.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler extends RuntimeException {
 
-    // 404 - Not Found
+    /**
+     * Handles ResourceNotFoundException and returns a 404 Not Found response.
+     *
+     * @param ex the ResourceNotFoundException thrown
+     * @return a ResponseEntity containing error details and HTTP status
+     */
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Object> handleNotFound(ResourceNotFoundException ex) {
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    // 409 - Conflict
+    /**
+     * Handles DuplicateResourceException and returns a 409 Conflict response.
+     *
+     * @param ex the DuplicateResourceException thrown
+     * @return a ResponseEntity containing error details and HTTP status
+     */
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<Object> handleDuplicate(DuplicateResourceException ex) {
         return buildResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
 
-    // 400 - Validation errors
+    /**
+     * Handles MethodArgumentNotValidException and returns a 400 Bad Request response with validation errors.
+     *
+     * @param ex the MethodArgumentNotValidException thrown
+     * @return a ResponseEntity containing validation error details and HTTP status
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidation(MethodArgumentNotValidException ex) {
 
@@ -38,13 +57,23 @@ public class GlobalExceptionHandler extends RuntimeException {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    // 500 - Generic error
+    /**
+     * Handles all other exceptions and returns a 500 Internal Server Error response.
+     *
+     * @param ex the Exception thrown
+     * @return a ResponseEntity containing error details and HTTP status
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGlobal(Exception ex) {
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error occurred");
     }
 
-
+    /**
+     * Helper method to build a standardized error response body.
+     * @param status the HTTP status to return
+     * @param message the error message to include in the response
+     * @return a ResponseEntity containing the error details and HTTP status
+     */
     private ResponseEntity<Object> buildResponse(HttpStatus status, String message) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
