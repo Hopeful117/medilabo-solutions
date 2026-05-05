@@ -2,6 +2,7 @@ package com.Medilabo_solutions.Patient_service.controller;
 
 import com.Medilabo_solutions.Patient_service.dto.PatientRequestDTO;
 import com.Medilabo_solutions.Patient_service.dto.PatientResponseDTO;
+import com.Medilabo_solutions.Patient_service.exception.ResourceNotFoundException;
 import com.Medilabo_solutions.Patient_service.model.Patient;
 import com.Medilabo_solutions.Patient_service.service.Mapper;
 import com.Medilabo_solutions.Patient_service.service.PatientService;
@@ -9,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,8 +44,36 @@ public class PatientController {
      * @return PatientResponseDTO wrapped in ResponseEntity
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
-        return ResponseEntity.ok(patientService.getPatientById(id));
+    public ResponseEntity<PatientResponseDTO> getPatientById(@PathVariable Long id) {
+        PatientResponseDTO responseDTO = Mapper.toResponse(patientService.getPatientById(id));
+        return ResponseEntity.ok(Mapper.toResponse(patientService.getPatientById(id)));
+    }
+
+    /**
+     * Get patients by last name.
+     *
+     * @param lastName Patient's last name
+     * @return List of PatientResponseDTO wrapped in ResponseEntity
+     */
+    @GetMapping("/{lastName}")
+    public ResponseEntity<List<PatientResponseDTO>> getPatientsByLastName(@PathVariable String lastName) {
+        List<PatientResponseDTO> response = patientService.getPatientsByLastName(lastName).stream()
+                .map(Mapper::toResponse)
+                .toList();
+        return ResponseEntity.ok(response);
+    }
+    /**
+     * Get a patient by last name and first name.
+     *
+     * @param lastName  Patient's last name
+     * @param firstName Patient's first name
+     * @return PatientResponseDTO wrapped in ResponseEntity
+     */
+    @GetMapping("/{lastName}/{firstName}")
+    public ResponseEntity<PatientResponseDTO> getPatientByLastNameAndFirstName(@PathVariable String lastName, @PathVariable String firstName) {
+
+        PatientResponseDTO response = Mapper.toResponse(patientService.getPatientByLastNameAndFirstName(lastName, firstName).get());
+        return ResponseEntity.ok(response);
     }
 
     /**

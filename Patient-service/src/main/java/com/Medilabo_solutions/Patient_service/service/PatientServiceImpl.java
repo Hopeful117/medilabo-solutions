@@ -103,6 +103,9 @@ public class PatientServiceImpl implements PatientService {
      */
     @Override
     public Optional <Patient> getPatientByLastNameAndFirstName(String lastName, String firstName) {
+       if(!patientRepository.existsByLastNameAndFirstName(lastName, firstName)) {
+           throw new ResourceNotFoundException("Patient not found with name: " + firstName + " " + lastName);
+       }
         return Optional.ofNullable(patientRepository.findByLastNameAndFirstName(lastName, firstName));
     }
 }
