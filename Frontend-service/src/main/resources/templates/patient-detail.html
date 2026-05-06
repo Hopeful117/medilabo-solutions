@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Détail patient</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h1>Détail du patient</h1>
+
+<div>
+    <p><strong>ID :</strong> <span th:text="${patient.id}"></span></p>
+    <p><strong>Prénom :</strong> <span th:text="${patient.firstName}"></span></p>
+    <p><strong>Nom :</strong> <span th:text="${patient.lastName}"></span></p>
+    <p><strong>Date de naissance :</strong> <span th:text="${patient.dateOfBirth}"></span></p>
+    <p><strong>Genre :</strong> <span th:text="${patient.gender}"></span></p>
+    <p><strong>Adresse :</strong> <span th:text="${patient.address} ?: 'Non renseigné'"></span></p>
+    <p><strong>Numéro de téléphone :</strong> <span th:text="${patient.phoneNumber} ?: 'Non renseigné'"></span></p>
+</div>
+<a th:href="@{'/patients/edit/id/' + ${patient.id}}">Modifier</a>
+<a th:href="@{'/patients/delete/' + ${patient.id}}"
+   onclick="return confirm('Supprimer ce patient ?')">
+    Supprimer
+</a>
+
+<br>
+
+<a href="/patients">⬅ Retour à la liste</a>
+
+</body>
+</html>

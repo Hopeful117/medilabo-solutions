@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Patients</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h1>Liste des patients</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Date de naissance</th>
+        <th>Genre</th>
+        <th>Address</th>
+        <th>Phone Number</th>
+    </tr>
+    <a href="/patients/add">Ajouter un patient</a>
+    </thead>
+
+    <tbody>
+    <tr th:each="patient : ${patients}">
+        <td th:text="${patient.id}"></td>
+        <td th:text="${patient.firstName}"></td>
+        <td th:text="${patient.lastName}"></td>
+        <td th:text="${patient.dateOfBirth}"></td>
+        <td th:text="${patient.gender}"></td>
+        <td th:text="${patient.address} ?:'Non renseigné'"></td>
+        <td th:text="${patient.phoneNumber} ?: 'Non renseigné' "></td>
+
+        <td>
+            <a th:href="@{'/patients/id/' + ${patient.id}}">Détail</a>
+            <a th:href="@{'/patients/edit/id/' + ${patient.id}}">Modifier</a>
+            <a th:href="@{'/patients/delete/' + ${patient.id}}"
+            onclick="return confirm('Supprimer ce patient ?')">
+                Supprimer
+            </a>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
