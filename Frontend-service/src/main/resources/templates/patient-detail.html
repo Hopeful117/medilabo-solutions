@@ -4,11 +4,13 @@
     <title>Détail patient</title>
     <meta charset="UTF-8">
 </head>
-<body>
 
-<h1>Détail du patient</h1>
+<div class th:replace="~{layout}"></div>
 
-<div>
+
+<div class="card text-white bg-primary m-3 w-50">
+    <h2 class="card-header">Détail du patient</h2>
+    <div class="card-body">
     <p><strong>ID :</strong> <span th:text="${patient.id}"></span></p>
     <p><strong>Prénom :</strong> <span th:text="${patient.firstName}"></span></p>
     <p><strong>Nom :</strong> <span th:text="${patient.lastName}"></span></p>
@@ -16,16 +18,19 @@
     <p><strong>Genre :</strong> <span th:text="${patient.gender}"></span></p>
     <p><strong>Adresse :</strong> <span th:text="${patient.address} ?: 'Non renseigné'"></span></p>
     <p><strong>Numéro de téléphone :</strong> <span th:text="${patient.phoneNumber} ?: 'Non renseigné'"></span></p>
+    </div>
 </div>
-<a th:href="@{'/patients/edit/id/' + ${patient.id}}">Modifier</a>
-<a th:href="@{'/patients/delete/' + ${patient.id}}"
+<div class="d-flex justify-content-start m-3 gap-2">
+<a class="btn btn-warning btn-sm" th:href="@{'/patients/edit/id/' + ${patient.id}}">Modifier</a>
+<a class="btn btn-danger btn-sm" th:href="@{'/patients/delete/' + ${patient.id}}"
    onclick="return confirm('Supprimer ce patient ?')">
     Supprimer
 </a>
 
 <br>
 
-<a href="/patients">⬅ Retour à la liste</a>
+<a  class="btn btn-info btn-sm" href="/patients">Retour à la liste</a>
+</div>
 
-</body>
+
 </html>

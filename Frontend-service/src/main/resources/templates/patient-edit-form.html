@@ -3,38 +3,41 @@
 <head>
     <title>Modifier patient</title>
 </head>
-<body>
+<div class th:replace="~{layout}"></div>
 
-<h1>Modifier patient</h1>
+<h2 class="h2">Modifier patient</h2>
 
-<form th:action="@{'/patients/edit/id/' + ${patient.id}}"
+<form class="w-50 mx-3" th:action="@{'/patients/edit/id/' + ${patient.id}}"
       th:object="${patient}" method="post">
 
 
-    <label>Prénom</label>
-    <input type="text" th:field="*{firstName}" /><br>
+    <label class="form-label">Prénom</label>
+    <input class="form-control form-control-lg" type="text" th:field="*{firstName}" /><br>
 
-    <label>Nom</label>
-    <input type="text" th:field="*{lastName}" /><br>
+    <label class="form-label">Nom</label>
+    <input class="form-control form-control-lg" type="text" th:field="*{lastName}" /><br>
 
-    <label>Date de naissance</label>
-    <input type="date" th:field="*{dateOfBirth}" /><br>
+    <label class="form-label">Date de naissance</label>
+    <input class="form-control form-control-lg" type="date" th:field="*{dateOfBirth}" /><br>
 
-    <label>Genre</label>
-    <input type="text" th:field="*{gender}" /><br>
+    <label class="form-label">Genre</label>
+    <input class="form-control form-control-lg" type="text" th:field="*{gender}" /><br>
 
-    <label>Adresse</label>
-    <input type="text" th:field="*{address}" /><br>
+    <label class="form-label">Adresse</label>
+    <input class="form-control form-control-lg" type="text" th:field="*{address}" /><br>
 
 
-    <label>Numéro de téléphone</label>
-    <input type="text" th:field="*{phoneNumber}" /><br>
+    <label class="form-label">Numéro de téléphone</label>
+    <input class="form-control form-control-lg" type="text" th:field="*{phoneNumber}" /><br>
 
-    <button type="submit">Modifier</button>
+    <div class="d-flex justify-content-start m-3 gap-2">
+        <button class="btn btn-primary" type="submit">Modifier</button>
+        <a  class="btn btn-danger btn-sm" href="/patients">Retour à la liste</a>
+    </div>
 
 </form>
 
-<a href="/patients">Retour</a>
 
-</body>
+
+
 </html>
