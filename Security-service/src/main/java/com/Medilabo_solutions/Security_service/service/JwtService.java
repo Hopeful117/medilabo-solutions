@@ -13,14 +13,13 @@ import java.security.Key;
 import java.util.Date;
 
 @Service
-@RequiredArgsConstructor
 public class JwtService {
 
     @Value("${JWT_SECRET}")
-    private final String secretKey;
+    private  String secretKey;
 
     @Value("${jwt.expiration}")
-    private final long jwtExpiration;
+    private long jwtExpiration;
 
     public String generateToken(String username) {
         return Jwts.builder()

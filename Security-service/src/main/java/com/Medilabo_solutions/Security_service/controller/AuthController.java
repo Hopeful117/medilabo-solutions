@@ -1,6 +1,7 @@
 package com.Medilabo_solutions.Security_service.controller;
 
-import com.Medilabo_solutions.Security_service.dto.LoginDTO;
+import com.Medilabo_solutions.Security_service.dto.LoginRequestDTO;
+import com.Medilabo_solutions.Security_service.dto.LoginResponseDTO;
 import com.Medilabo_solutions.Security_service.repository.UserRepository;
 import com.Medilabo_solutions.Security_service.service.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -15,17 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private AuthenticationManager authenticationManager;
-    private JwtService jwtService;
-    private UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
+
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginDTO loginDTO) {
+    public LoginResponseDTO login(@RequestBody LoginRequestDTO loginDTO) {
     authenticationManager.authenticate(
             new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
                     loginDTO.getUsername(),loginDTO.getPassword()
             ));
-    return jwtService.generateToken(loginDTO.getUsername());
+ String token = jwtService.generateToken(loginDTO.getUsername());
+ return new LoginResponseDTO(token);
 }
 
 
