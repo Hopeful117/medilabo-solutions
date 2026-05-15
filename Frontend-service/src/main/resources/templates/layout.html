@@ -10,8 +10,9 @@
 <div th:fragment="layout" class="d-flex justify-content-between bg-dark text-white p-3">
 <h2 class="h2">Medilabo Solutions</h2>
 <nav class="navbar">
-    <div class="container">
-        <a class="nav-link" href="/patients">Patients</a>
+    <div class="container d-flex justify-space-between gap-3">
+        <a class="nav-link" th:href="@{/patients}">Dashboard</a>
+        <a class="nav-link" th:href="@{/logout}">Logout</a>
     </div>
 </nav>
 </div>

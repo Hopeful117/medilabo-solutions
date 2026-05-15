@@ -9,7 +9,7 @@
 
 <form class="w-50 mx-3" th:action="@{'/patients/edit/id/' + ${patient.id}}"
       th:object="${patient}" method="post">
-
+    <input type="hidden" name="_method" value="put"/>
 
     <label class="form-label">Prénom</label>
     <input class="form-control form-control-lg" type="text" th:field="*{firstName}" /><br>
@@ -18,7 +18,12 @@
     <input class="form-control form-control-lg" type="text" th:field="*{lastName}" /><br>
 
     <label class="form-label">Date de naissance</label>
-    <input class="form-control form-control-lg" type="date" th:field="*{dateOfBirth}" /><br>
+    <input
+            class="form-control form-control-lg"
+            type="date"
+            th:value="${#temporals.format(patient.dateOfBirth, 'yyyy-MM-dd')}"
+            name="dateOfBirth"
+    /><br>
 
     <label class="form-label">Genre</label>
     <input class="form-control form-control-lg" type="text" th:field="*{gender}" /><br>

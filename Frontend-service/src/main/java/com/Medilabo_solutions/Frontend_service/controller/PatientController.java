@@ -56,12 +56,12 @@ public class PatientController {
         model.addAttribute("patient", patientClientService.getPatientById(id,session));
         return "patient-edit-form.html";
     }
-    @PutMapping("/patients/id/{id}")
+    @PutMapping("/patients/edit/id/{id}")
     public String updatePatient(@PathVariable Long id, PatientRequestDTO patient,HttpSession session) {
         patientClientService.updatePatient(id, patient,session);
         return "redirect:/patients/id/" + id;
     }
-    @DeleteMapping("/patients/id/{id}")
+    @GetMapping("/patients/delete/id/{id}")
     public String deletePatient(@PathVariable Long id,HttpSession session) {
         patientClientService.deletePatientById(id,session);
         return "redirect:/patients";

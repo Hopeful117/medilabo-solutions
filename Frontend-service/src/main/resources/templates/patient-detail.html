@@ -22,7 +22,7 @@
 </div>
 <div class="d-flex justify-content-start m-3 gap-2">
 <a class="btn btn-warning btn-sm" th:href="@{'/patients/edit/id/' + ${patient.id}}">Modifier</a>
-<a class="btn btn-danger btn-sm" th:href="@{'/patients/delete/' + ${patient.id}}"
+<a class="btn btn-danger btn-sm" th:href="@{'/patients/delete/id/' + ${patient.id}}"
    onclick="return confirm('Supprimer ce patient ?')">
     Supprimer
 </a>
