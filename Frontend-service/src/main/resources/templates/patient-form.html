@@ -10,23 +10,30 @@
 <form class="w-50 mx-3" th:action="@{/patients/add}" th:object="${patient}" method="post">
 
     <label class="form-label">Prénom</label>
-    <input class="form-control form-control-lg" type="text" th:field="*{firstName}" /><br>
+    <input class="form-control form-control-lg" type="text" th:field="*{firstName}" />
+    <p class="text-danger" th:errors="*{firstName}" th:if="${#fields.hasErrors('firstName')}"></p>
+    <br>
 
     <label class="form-label">Nom</label>
     <input class="form-control form-control-lg" type="text" th:field="*{lastName}" /><br>
+    <p class="text-danger" th:errors="*{lastName}" th:if="${#fields.hasErrors('lastName')}"></p>
 
     <label class="form-label">Date de naissance</label>
     <input class="form-control form-control-lg" type="date" th:field="*{dateOfBirth}" /><br>
+    <p class="text-danger" th:errors="*{dateOfBirth}" th:if="${#fields.hasErrors('dateOfBirth')}"></p>
 
     <label class="form-label">Genre</label>
     <input class="form-control form-control-lg" type="text" th:field="*{gender}" /><br>
+    <p class="text-danger" th:errors="*{gender}" th:if="${#fields.hasErrors('gender')}"></p>
 
     <label class="form-label">Adresse</label>
     <input class="form-control form-control-lg" type="text" th:field="*{address}" /><br>
+    <p class="text-danger" th:errors="*{address}" th:if="${#fields.hasErrors('address')}"></p>
 
 
     <label class="form-label">Numéro de téléphone</label>
     <input class="form-control form-control-lg" type="text" th:field="*{phoneNumber}" /><br>
+    <p class="text-danger" th:errors="*{phoneNumber}" th:if="${#fields.hasErrors('phoneNumber')}"></p>
 
     <div class="d-flex justify-content-start m-3 gap-2">
     <button class="btn btn-primary" type="submit">Créer</button>

@@ -4,9 +4,11 @@ import com.Medilabo_solutions.Frontend_service.dto.PatientRequestDTO;
 import com.Medilabo_solutions.Frontend_service.dto.PatientResponseDTO;
 import com.Medilabo_solutions.Frontend_service.service.PatientClientService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -25,7 +27,7 @@ public class PatientController {
     @GetMapping("/patients/id/{id}")
     public String getPatientById(@PathVariable Long id, Model model,HttpSession session) {
         model.addAttribute("patient", patientClientService.getPatientById(id,session));
-        return "patient-detail.html";
+        return "patient-detail";
     }
 
     @GetMapping("/patients/lastname/{lastName}")
@@ -37,27 +39,36 @@ public class PatientController {
     @GetMapping("/patients/lastname/{lastName}/firstname/{firstName}")
     public String getPatientByLastNameAndFirstName(@PathVariable String lastName, @PathVariable String firstName, Model model,HttpSession session) {
         model.addAttribute("patient", patientClientService.getPatientByLastNameAndFirstName(lastName, firstName,session));
-        return "patient-detail.html";
+        return "patient-detail";
     }
 
     @GetMapping("/patients/add")
     public String addPatientForm(Model model,HttpSession session) {
         model.addAttribute("patient", new PatientResponseDTO());
-        return "patient-form.html";
+        return "patient-form";
     }
 
     @PostMapping("/patients/add")
-    public String createPatient(PatientRequestDTO patient,HttpSession session) {
+    public String createPatient(@Valid @ModelAttribute("patient") PatientRequestDTO patient, BindingResult bindingResult,HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            return "patient-form";
+        }
+
         patientClientService.createPatient(patient,session);
         return "redirect:/patients";
     }
     @GetMapping("/patients/edit/id/{id}")
     public String editPatientForm(@PathVariable Long id, Model model,HttpSession session) {
         model.addAttribute("patient", patientClientService.getPatientById(id,session));
-        return "patient-edit-form.html";
+        return "patient-edit-form";
     }
     @PutMapping("/patients/edit/id/{id}")
-    public String updatePatient(@PathVariable Long id, PatientRequestDTO patient,HttpSession session) {
+    public String updatePatient(@PathVariable Long id,@Valid @ModelAttribute("patient") PatientRequestDTO patient,BindingResult bindingResult,HttpSession session,Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("id", id);
+            model.addAttribute("patient", patient);
+            return "patient-edit-form";
+        }
         patientClientService.updatePatient(id, patient,session);
         return "redirect:/patients/id/" + id;
     }
