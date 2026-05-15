@@ -17,16 +17,16 @@ public class Mapper {
      */
     public static Patient toEntity(PatientRequestDTO request) {
         Patient patient = new Patient();
-        patient.setFirstName(request.firstName);
-        patient.setLastName(request.lastName);
-        patient.setDateOfBirth(request.dateOfBirth);
+        patient.setFirstName(request.getFirstName());
+        patient.setLastName(request.getLastName());
+        patient.setDateOfBirth(request.getDateOfBirth());
 
-        if (request.gender != null) {
-            patient.setGender(Patient.Gender.valueOf(request.gender));
+        if (request.getGender() != null) {
+            patient.setGender(Patient.Gender.valueOf(request.getGender()));
         }
 
-        patient.setAddress(request.address);
-        patient.setPhoneNumber(request.phoneNumber);
+        patient.setAddress(request.getAddress());
+        patient.setPhoneNumber(request.getPhoneNumber());
 
         return patient;
     }
@@ -38,13 +38,13 @@ public class Mapper {
      */
     public static PatientResponseDTO toResponse(Patient patient) {
         PatientResponseDTO response = new PatientResponseDTO();
-        response.id = patient.getId();
-        response.firstName = patient.getFirstName();
-        response.lastName = patient.getLastName();
-        response.dateOfBirth = patient.getDateOfBirth();
-        response.gender = patient.getGender() != null ? patient.getGender().name() : null;
-        response.address = patient.getAddress();
-        response.phoneNumber = patient.getPhoneNumber();
+        response.setId(patient.getId());
+        response.setFirstName(patient.getFirstName());
+        response.setLastName(patient.getLastName());
+        response.setDateOfBirth(patient.getDateOfBirth());
+        response.setGender(patient.getGender() != null ? patient.getGender().name() : null);
+        response.setAddress(patient.getAddress());
+        response.setPhoneNumber(patient.getPhoneNumber());
 
         return response;
     }

@@ -56,6 +56,16 @@ public class GlobalExceptionHandler extends RuntimeException {
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
+    /**
+     * Handles InvalidDateException and returns a 400 Bad Request response.
+     *
+     * @param ex the InvalidDateException thrown
+     * @return a ResponseEntity containing error details and HTTP status
+     */
+    @ExceptionHandler(InvalidDateException.class)
+    public ResponseEntity<Object> handleInvalidDate(InvalidDateException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
 
     /**
      * Handles all other exceptions and returns a 500 Internal Server Error response.

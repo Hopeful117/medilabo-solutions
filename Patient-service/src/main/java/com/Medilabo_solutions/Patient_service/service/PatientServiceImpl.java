@@ -1,10 +1,12 @@
 package com.Medilabo_solutions.Patient_service.service;
 
 import com.Medilabo_solutions.Patient_service.exception.DuplicateResourceException;
+import com.Medilabo_solutions.Patient_service.exception.InvalidDateException;
 import com.Medilabo_solutions.Patient_service.exception.ResourceNotFoundException;
 import com.Medilabo_solutions.Patient_service.model.Patient;
 import com.Medilabo_solutions.Patient_service.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
+
 public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
@@ -48,10 +51,14 @@ public class PatientServiceImpl implements PatientService {
      */
     @Override
     public Patient createPatient(Patient patient) {
+        if (patient.getDateOfBirth() != null && patient.getDateOfBirth().isAfter(java.time.LocalDate.now())) {
+            throw new InvalidDateException("Date of birth cannot be in the future.");
+        }
         if (patientRepository.existsByLastNameAndFirstName(patient.getLastName(), patient.getFirstName())) {
             throw new DuplicateResourceException(
                     "Patient with name " + patient.getFirstName() + " " + patient.getLastName() + " already exists."
             );
+
         }
         return patientRepository.save(patient);
     }
@@ -64,6 +71,9 @@ public class PatientServiceImpl implements PatientService {
      */
     @Override
     public Patient updatePatient(Long id, Patient patient) {
+        if (patient.getDateOfBirth() != null && patient.getDateOfBirth().isAfter(java.time.LocalDate.now())) {
+            throw new InvalidDateException("Date of birth cannot be in the future.");
+        }
         Patient existingPatient = getPatientById(id);
 
         existingPatient.setFirstName(patient.getFirstName());

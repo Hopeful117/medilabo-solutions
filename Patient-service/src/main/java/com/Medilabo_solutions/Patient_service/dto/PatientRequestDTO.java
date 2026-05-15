@@ -2,26 +2,29 @@ package com.Medilabo_solutions.Patient_service.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 import java.time.LocalDate;
 
 /**
  * DTO for creating or updating a patient.
  */
+
+@Data
 public class PatientRequestDTO {
     @NotBlank(message = "First name is required")
-    public String firstName;
+    private String firstName;
 
     @NotBlank(message = "Last name is required")
-    public String lastName;
+    private String lastName;
 
     @NotNull(message = "Date of birth is required")
-    public LocalDate dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @NotBlank(message= "Gender is required")
-    public String gender;
+    private String gender;
 
-    public String address;
+    private String address;
 
-    public String phoneNumber;
+    private String phoneNumber;
 }
