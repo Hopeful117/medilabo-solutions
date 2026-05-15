@@ -32,7 +32,11 @@
     <br>
 
     <label class="form-label">Genre</label>
-    <input class="form-control form-control-lg" type="text" th:field="*{gender}" />
+    <select class="form-select form-select-lg" th:field="*{gender}">
+        <option value="" disabled selected>Choisissez un genre</option>
+        <option value="M">Homme</option>
+        <option value="F">Femme</option>
+    </select>
     <p class="text-danger" th:errors="*{gender}" th:if="${#fields.hasErrors('gender')}"></p>
     <br>
 
