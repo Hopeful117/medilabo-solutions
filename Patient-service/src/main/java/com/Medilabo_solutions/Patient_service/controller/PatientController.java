@@ -102,7 +102,7 @@ public class PatientController {
      * @param request PatientRequestDTO containing updated patient details
      * @return Updated PatientResponseDTO wrapped in ResponseEntity
      */
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/id/{id}")
     public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable long id,
                                                             @Valid @RequestBody PatientRequestDTO request) {
         log.info("Received request to update patient with ID: {}", id);
@@ -117,7 +117,7 @@ public class PatientController {
      * @param id Patient ID
      * @return ResponseEntity with HTTP status 204 (No Content)
      */
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/id/{id}")
     public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
         log.info("Received request to delete patient with ID: {}", id);
         patientService.deletePatient(id);

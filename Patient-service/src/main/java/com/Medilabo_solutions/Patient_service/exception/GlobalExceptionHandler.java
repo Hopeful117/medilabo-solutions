@@ -16,7 +16,7 @@ import java.util.Map;
  * Handles various exceptions and returns appropriate HTTP responses with error details.
  */
 @RestControllerAdvice
-public class GlobalExceptionHandler extends RuntimeException {
+public class GlobalExceptionHandler  {
 
     /**
      * Handles ResourceNotFoundException and returns a 404 Not Found response.
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler extends RuntimeException {
         ex.getBindingResult().getFieldErrors()
                 .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+      return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
     /**
      * Handles InvalidDateException and returns a 400 Bad Request response.
