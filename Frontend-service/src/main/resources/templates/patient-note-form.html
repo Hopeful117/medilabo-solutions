@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ajouter une note</title>
+</head>
+<div class th:replace="~{layout}"></div>
+
+<form th:action="@{/patients/notes/id/{id}(id=${patient.id})}"
+      th:object="${note}"
+      method="post">
+
+    <div class="mb-3">
+        <textarea class="form-control" th:field="*{content}"></textarea>
+
+        <div class="text-danger"
+             th:if="${#fields.hasErrors('content')}"
+             th:errors="*{content}">
+        </div>
+    </div>
+
+
+    <div class="d-flex justify-content-start m-3 gap-2">
+        <button class="btn btn-primary" type="submit">Créer</button>
+        <a  class="btn btn-danger btn-sm" href="/patients">Retour à la liste</a>
+    </div>
+</form>
+</html>

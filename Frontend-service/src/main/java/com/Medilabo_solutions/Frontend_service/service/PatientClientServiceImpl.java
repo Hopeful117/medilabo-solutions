@@ -23,12 +23,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PatientClientService {
+public class PatientClientServiceImpl implements PatientClientService {
     private final RestTemplate restTemplate;
 
 
     private final String BASE_URL = "http://localhost:8080/api/v1/patients";
 
+    @Override
     public List<PatientResponseDTO> getAllPatients(HttpSession session) {
         HttpHeaders headers = getAuthHeaders(session);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
@@ -48,7 +49,7 @@ public class PatientClientService {
             throw RestTemplateHelper.handleException(ex);
         }
     }
-
+    @Override
     public PatientResponseDTO getPatientById(Long id,HttpSession session) {
         HttpHeaders headers = getAuthHeaders(session);
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -62,7 +63,7 @@ public class PatientClientService {
             throw RestTemplateHelper.handleException(ex);
         }
     }
-
+    @Override
     public List<PatientResponseDTO> getPatientsByLastName(String lastName,HttpSession session) {
         HttpHeaders headers = getAuthHeaders(session);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
@@ -76,7 +77,7 @@ public class PatientClientService {
             throw RestTemplateHelper.handleException(ex);
         }
     }
-
+    @Override
     public PatientResponseDTO getPatientByLastNameAndFirstName(String lastName, String firstName,HttpSession session) {
         HttpHeaders headers = getAuthHeaders(session);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
@@ -90,6 +91,7 @@ public class PatientClientService {
             throw RestTemplateHelper.handleException(ex);
         }
     }
+    @Override
     public PatientResponseDTO createPatient(PatientRequestDTO patient,HttpSession session) {
         HttpHeaders headers = getAuthHeaders(session);
         HttpEntity<PatientRequestDTO> entity = new HttpEntity<>(patient, headers);
@@ -103,6 +105,7 @@ public class PatientClientService {
             throw RestTemplateHelper.handleException(ex);
         }
     }
+    @Override
     public PatientResponseDTO updatePatient(Long id, PatientRequestDTO patient,HttpSession session) {
         HttpHeaders headers = getAuthHeaders(session);
         log.info("Calling Patient API to update patient with ID: {}", id);
@@ -115,7 +118,7 @@ public class PatientClientService {
             throw RestTemplateHelper.handleException(ex);
         }
     }
-
+    @Override
     public void deletePatientById(Long id,HttpSession session) {
         HttpHeaders headers = getAuthHeaders(session);
         HttpEntity<Void> entity = new HttpEntity<>(headers);

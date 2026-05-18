@@ -26,11 +26,30 @@
    onclick="return confirm('Supprimer ce patient ?')">
     Supprimer
 </a>
-
-<br>
-
 <a  class="btn btn-info btn-sm" href="/patients">Retour à la liste</a>
 </div>
+
+<br>
+    <div class="card text-white bg-secondary m-3 w-50">
+    <h3 class="card-header">Historique</h3>
+
+    <div class="card-body" th:if="${#lists.isEmpty(notes)}">
+        <p>Aucune note</p>
+    </div>
+
+    <ul class="card-body">
+        <li th:each="note : ${notes}">
+            <strong th:text="${#temporals.format(note.createdAt, 'dd/MM/yyyy HH:mm')}"></strong> :
+            <span th:text="${note.note}"></span>
+        </li>
+    </ul>
+
+    </div>
+<div class="d-flex justify-content-start m-3 gap-2">
+<a class="btn btn-success btn-sm" th:href="@{/patients/notes/id/{id}(id=${patient.id})}">Ajouter une note</a>
+</div>
+
+
 
 
 </html>

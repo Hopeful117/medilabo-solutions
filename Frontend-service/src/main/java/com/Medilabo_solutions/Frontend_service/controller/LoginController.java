@@ -2,6 +2,7 @@ package com.Medilabo_solutions.Frontend_service.controller;
 
 import com.Medilabo_solutions.Frontend_service.dto.LoginRequestDTO;
 import com.Medilabo_solutions.Frontend_service.service.AuthClientService;
+import com.Medilabo_solutions.Frontend_service.service.AuthClientServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

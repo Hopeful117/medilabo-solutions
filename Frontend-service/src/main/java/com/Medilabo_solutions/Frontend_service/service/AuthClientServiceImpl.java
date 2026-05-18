@@ -17,10 +17,11 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AuthClientService {
+public class AuthClientServiceImpl implements AuthClientService {
     private final RestTemplate restTemplate;
     private final String BASE_URL = "http://localhost:8080/api/v1/auth";
 
+    @Override
     public LoginResponseDTO authenticate(LoginRequestDTO loginRequestDTO) {
 
         HttpHeaders headers = new HttpHeaders();

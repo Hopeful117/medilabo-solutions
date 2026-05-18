@@ -1,8 +1,12 @@
 package com.Medilabo_solutions.Frontend_service.controller;
 
+import com.Medilabo_solutions.Frontend_service.dto.PatientNoteRequestDTO;
+import com.Medilabo_solutions.Frontend_service.dto.PatientNoteResponseDTO;
 import com.Medilabo_solutions.Frontend_service.dto.PatientRequestDTO;
 import com.Medilabo_solutions.Frontend_service.dto.PatientResponseDTO;
 import com.Medilabo_solutions.Frontend_service.service.PatientClientService;
+import com.Medilabo_solutions.Frontend_service.service.PatientClientServiceImpl;
+import com.Medilabo_solutions.Frontend_service.service.PatientHistoryClientService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class PatientController {
     private final PatientClientService patientClientService;
+    private final PatientHistoryClientService patientHistoryClientService;
 
     /**
      * Handles GET requests to list all patients.
@@ -50,6 +55,7 @@ public class PatientController {
     public String getPatientById(@PathVariable Long id, Model model,HttpSession session) {
         log.info("Accessing patient detail page for patient ID: {}", id);
         model.addAttribute("patient", patientClientService.getPatientById(id,session));
+        model.addAttribute("notes", patientHistoryClientService.getPatientNotesByPatientId(id,session));
         return "patient-detail";
     }
     /**
@@ -170,5 +176,36 @@ public class PatientController {
         log.info("Processing patient deletion for patient ID: {}", id);
         patientClientService.deletePatientById(id,session);
         return "redirect:/patients";
+    }
+    @GetMapping("/patients/notes/id/{id}")
+    public String addNoteForm(@PathVariable Long id, Model model,HttpSession session) {
+        log.info("Accessing add note form for patient ID: {}", id);
+        model.addAttribute("patient", patientClientService.getPatientById(id, session));
+        model.addAttribute("note", new PatientNoteRequestDTO());
+        return "patient-note-form";
+    }
+
+    @PostMapping("/patients/notes/id/{id}")
+    public String addNote(
+            @PathVariable Long id,
+            @Valid @ModelAttribute("note") PatientNoteRequestDTO note,
+            BindingResult bindingResult,
+            HttpSession session,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("patient",
+                    patientClientService.getPatientById(id, session));
+
+            model.addAttribute("history",
+                    patientHistoryClientService.getPatientNotesByPatientId(id, session));
+
+            return "patient-detail";
+        }
+
+        patientHistoryClientService.addPatientNoteToPatient(id, note, session);
+
+        return "redirect:/patients/id/" + id;
     }
 }
