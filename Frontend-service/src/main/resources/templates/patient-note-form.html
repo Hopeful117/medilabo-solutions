@@ -5,9 +5,12 @@
 </head>
 <div class th:replace="~{layout}"></div>
 
+<h3 class="h3 mx-3 my-3">Ajouter une note</h3>
+
 <form th:action="@{/patients/notes/id/{id}(id=${patient.id})}"
       th:object="${note}"
-      method="post">
+      method="post"
+class="w-50 mx-3 my-3">
 
     <div class="mb-3">
         <textarea class="form-control" th:field="*{content}"></textarea>
