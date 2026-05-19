@@ -1,4 +1,4 @@
-package com.Medilabo_solutions.Frontend_service.config;
+package com.Medilabo_solutions.Evaluation_Service.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
