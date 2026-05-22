@@ -1,5 +1,6 @@
 package com.Medilabo_solutions.Patient_service.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +17,7 @@ import java.util.Map;
  * Handles various exceptions and returns appropriate HTTP responses with error details.
  */
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler  {
 
     /**
@@ -26,6 +28,7 @@ public class GlobalExceptionHandler  {
      */
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Object> handleNotFound(ResourceNotFoundException ex) {
+        log.warn ("Resource not found: {}", ex.getMessage());
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
@@ -37,6 +40,7 @@ public class GlobalExceptionHandler  {
      */
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<Object> handleDuplicate(DuplicateResourceException ex) {
+        log.warn("Duplicate resource: {}", ex.getMessage());
         return buildResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
 
@@ -53,7 +57,7 @@ public class GlobalExceptionHandler  {
 
         ex.getBindingResult().getFieldErrors()
                 .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
-
+        log.warn("Validation failed: {}", errors);
       return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
     /**
@@ -64,6 +68,7 @@ public class GlobalExceptionHandler  {
      */
     @ExceptionHandler(InvalidDateException.class)
     public ResponseEntity<Object> handleInvalidDate(InvalidDateException ex) {
+        log.warn("Invalid date: {}", ex.getMessage());
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
@@ -75,6 +80,7 @@ public class GlobalExceptionHandler  {
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGlobal(Exception ex) {
+        log.error("Unexpected error: {}", ex.getMessage(), ex);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error occurred");
     }
 
