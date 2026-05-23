@@ -1,5 +1,6 @@
 package com.Medilabo_solutions.History_service;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,7 +8,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HistoryServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HistoryServiceApplication.class, args);
+        // Charger les variables du fichier .env avant de lancer Spring Boot
+        Dotenv dotenv = Dotenv.configure()
+                .ignoreIfMissing()
+                .load();
+
+        dotenv.entries().forEach(entry ->
+                System.setProperty(entry.getKey(), entry.getValue())
+        );
+        SpringApplication.run(HistoryServiceApplication.class, args);
 	}
 
 }

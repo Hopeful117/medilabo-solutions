@@ -6,9 +6,9 @@
 </head>
 
 <div class th:replace="~{layout}"></div>
-
-
-<div class="card text-white bg-primary m-3 w-50">
+<div class="d-flex justify-content-between align-items-top m-3">
+<div class="w-50">
+<div class="card text-white bg-primary m-3  ">
     <h2 class="card-header">Détail du patient</h2>
     <div class="card-body">
     <p><strong>ID :</strong> <span th:text="${patient.id}"></span></p>
@@ -20,6 +20,7 @@
     <p><strong>Numéro de téléphone :</strong> <span th:text="${patient.phoneNumber} ?: 'Non renseigné'"></span></p>
     </div>
 </div>
+
 <div class="d-flex justify-content-start m-3 gap-2">
 <a class="btn btn-warning btn-sm" th:href="@{'/patients/edit/id/' + ${patient.id}}">Modifier</a>
 <a class="btn btn-danger btn-sm" th:href="@{'/patients/delete/id/' + ${patient.id}}"
@@ -28,26 +29,47 @@
 </a>
 <a  class="btn btn-info btn-sm" href="/patients">Retour à la liste</a>
 </div>
+    </div>
+    <div class="w-50">
+    <div class="card text-white bg-secondary m-3">
+        <h2 class="card-header">Historique</h2>
 
-<br>
-    <div class="card text-white bg-secondary m-3 w-50">
-    <h3 class="card-header">Historique</h3>
+        <div class="card-body" th:if="${#lists.isEmpty(notes)}">
+            <p>Aucune note</p>
+        </div>
 
-    <div class="card-body" th:if="${#lists.isEmpty(notes)}">
-        <p>Aucune note</p>
+        <ul class="card-body">
+            <li th:each="note : ${notes}">
+                <strong th:text="${#temporals.format(note.createdAt, 'dd/MM/yyyy HH:mm')}"></strong> :
+                <span th:text="${note.note}"></span>
+            </li>
+        </ul>
+
     </div>
 
-    <ul class="card-body">
-        <li th:each="note : ${notes}">
-            <strong th:text="${#temporals.format(note.createdAt, 'dd/MM/yyyy HH:mm')}"></strong> :
-            <span th:text="${note.note}"></span>
-        </li>
-    </ul>
-
+    <div class="d-flex justify-content-start m-3 gap-2">
+        <a class="btn btn-success btn-sm" th:href="@{/patients/notes/id/{id}(id=${patient.id})}">Ajouter une note</a>
     </div>
-<div class="d-flex justify-content-start m-3 gap-2">
-<a class="btn btn-success btn-sm" th:href="@{/patients/notes/id/{id}(id=${patient.id})}">Ajouter une note</a>
+    </div>
 </div>
+
+
+
+
+
+    <div class="d-flex justify-content-between align-items-top m-3">
+    <div class ="card text-white bg-danger m-3 w-50">
+        <h2 class="card-header">Évaluation</h2>
+        <div class="card-body">
+            <p th:if="${evaluation == null}">Aucune évaluation</p>
+            <p th:if="${evaluation != null}">
+                <strong>Risque :</strong> <span th:text="${evaluation.riskLevel.description}"></span>
+        </div>
+
+    </div>
+        <div class="w-50"></div>
+    </div>
+
 
 
 

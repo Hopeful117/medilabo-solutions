@@ -1,5 +1,7 @@
 package com.Medilabo_solutions.History_service.service;
 
+import com.Medilabo_solutions.History_service.dto.PatientNoteRequestDTO;
+import com.Medilabo_solutions.History_service.dto.PatientNoteResponseDTO;
 import com.Medilabo_solutions.History_service.model.PatientNote;
 import com.Medilabo_solutions.History_service.repository.PatientNoteRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,22 +16,37 @@ public class PatientNoteServiceImpl implements PatientNoteService {
     private final PatientNoteRepository patientNoteRepository;
 
     @Override
-    public PatientNote addNote(Long patientId, String note) {
+    public PatientNoteResponseDTO addNote(Long patientId, PatientNoteRequestDTO request) {
+
         log.info("Adding note for patient ID: {}", patientId);
         PatientNote patientNote = PatientNote.builder()
                 .patientId(patientId)
-                .note(note)
+                .note(request.getContent())
                 .createdAt(java.time.LocalDateTime.now())
                 .build();
         log.info("Successfully created note for patient ID: {}", patientId);
-        return patientNoteRepository.save(patientNote);
+        patientNote = patientNoteRepository.save(patientNote);
+        return mapToDTO(patientNote);
 
 
     }
 
     @Override
-    public List<PatientNote> getHistory(Long patientId) {
+    public List <PatientNoteResponseDTO> getHistory(Long patientId) {
         log.info("Retrieving history for patient ID: {}", patientId);
-        return patientNoteRepository.findByPatientId(patientId);
+        List<PatientNote> notes = patientNoteRepository.findByPatientId(patientId);
+        return notes.stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+
+    private PatientNoteResponseDTO mapToDTO(PatientNote note) {
+        return PatientNoteResponseDTO.builder()
+                .id(note.getId())
+                .patientId(note.getPatientId())
+                .note(note.getNote())
+                .createdAt(note.getCreatedAt())
+                .build();
     }
 }

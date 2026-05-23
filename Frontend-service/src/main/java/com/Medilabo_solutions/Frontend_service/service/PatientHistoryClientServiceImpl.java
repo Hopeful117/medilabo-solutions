@@ -2,6 +2,7 @@ package com.Medilabo_solutions.Frontend_service.service;
 
 import com.Medilabo_solutions.Frontend_service.dto.PatientNoteRequestDTO;
 import com.Medilabo_solutions.Frontend_service.dto.PatientNoteResponseDTO;
+import com.Medilabo_solutions.Frontend_service.helper.GetAuthHeaders;
 import com.Medilabo_solutions.Frontend_service.helper.RestTemplateHelper;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,11 @@ import java.util.List;
 public class PatientHistoryClientServiceImpl implements PatientHistoryClientService {
     private final RestTemplate restTemplate;
     private final String BASE_URL = "http://localhost:8080/api/v1/history";
+    private final GetAuthHeaders getAuthHeaders;
 
     @Override
     public List<PatientNoteResponseDTO> getPatientNotesByPatientId(Long patientId, HttpSession session) {
-        HttpHeaders headers = getAuthHeaders(session);
+        HttpHeaders headers = getAuthHeaders.getAuthHeaders(session);
         HttpEntity<String> entity = new HttpEntity<>(headers);
         log.info("Calling History API to get history for patient ID: {}", patientId);
         try {
@@ -40,7 +42,7 @@ public class PatientHistoryClientServiceImpl implements PatientHistoryClientServ
     }
     @Override
     public PatientNoteResponseDTO addPatientNoteToPatient(Long patientId, PatientNoteRequestDTO patientNoteRequest, HttpSession session) {
-        HttpHeaders headers = getAuthHeaders(session);
+        HttpHeaders headers = getAuthHeaders.getAuthHeaders(session);
         HttpEntity<PatientNoteRequestDTO> entity = new HttpEntity<>(patientNoteRequest, headers);
         log.info("Calling History API to add note for patient ID: {}", patientId);
         try {
@@ -53,12 +55,7 @@ public class PatientHistoryClientServiceImpl implements PatientHistoryClientServ
         }
     }
 
-    private HttpHeaders getAuthHeaders(HttpSession session) {
-        String token = (String) session.getAttribute("jwt");
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        return headers;
-    }
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.Medilabo_solutions.History_service.security;
 
-import com.Medilabo_solutions.Patient_service.service.JwtService;
+
+import com.Medilabo_solutions.History_service.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

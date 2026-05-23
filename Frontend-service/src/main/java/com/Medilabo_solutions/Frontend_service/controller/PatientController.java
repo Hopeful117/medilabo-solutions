@@ -4,6 +4,7 @@ import com.Medilabo_solutions.Frontend_service.dto.PatientNoteRequestDTO;
 import com.Medilabo_solutions.Frontend_service.dto.PatientNoteResponseDTO;
 import com.Medilabo_solutions.Frontend_service.dto.PatientRequestDTO;
 import com.Medilabo_solutions.Frontend_service.dto.PatientResponseDTO;
+import com.Medilabo_solutions.Frontend_service.service.EvaluationClientService;
 import com.Medilabo_solutions.Frontend_service.service.PatientClientService;
 import com.Medilabo_solutions.Frontend_service.service.PatientClientServiceImpl;
 import com.Medilabo_solutions.Frontend_service.service.PatientHistoryClientService;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 public class PatientController {
     private final PatientClientService patientClientService;
     private final PatientHistoryClientService patientHistoryClientService;
+    private final EvaluationClientService evaluationClientService;
 
     /**
      * Handles GET requests to list all patients.
@@ -56,6 +58,7 @@ public class PatientController {
         log.info("Accessing patient detail page for patient ID: {}", id);
         model.addAttribute("patient", patientClientService.getPatientById(id,session));
         model.addAttribute("notes", patientHistoryClientService.getPatientNotesByPatientId(id,session));
+        model.addAttribute("evaluation", evaluationClientService.getEvaluationByPatientId(id, session));
         return "patient-detail";
     }
     /**

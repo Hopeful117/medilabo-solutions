@@ -2,6 +2,7 @@ package com.Medilabo_solutions.Frontend_service.service;
 
 import com.Medilabo_solutions.Frontend_service.dto.PatientRequestDTO;
 import com.Medilabo_solutions.Frontend_service.dto.PatientResponseDTO;
+import com.Medilabo_solutions.Frontend_service.helper.GetAuthHeaders;
 import com.Medilabo_solutions.Frontend_service.helper.RestTemplateHelper;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +26,12 @@ import java.util.List;
 @Slf4j
 public class PatientClientServiceImpl implements PatientClientService {
     private final RestTemplate restTemplate;
-
-
+    private final GetAuthHeaders getAuthHeaders;
     private final String BASE_URL = "http://localhost:8080/api/v1/patients";
 
     @Override
     public List<PatientResponseDTO> getAllPatients(HttpSession session) {
-        HttpHeaders headers = getAuthHeaders(session);
+        HttpHeaders headers = getAuthHeaders.getAuthHeaders(session);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
         log.info("Calling Patient API to get all patients");
 
@@ -51,7 +51,7 @@ public class PatientClientServiceImpl implements PatientClientService {
     }
     @Override
     public PatientResponseDTO getPatientById(Long id,HttpSession session) {
-        HttpHeaders headers = getAuthHeaders(session);
+        HttpHeaders headers = getAuthHeaders.getAuthHeaders(session);
         HttpEntity<String> entity = new HttpEntity<>(headers);
         log.info("Calling Patient API to get patient with ID: {}", id);
         try {
@@ -65,7 +65,7 @@ public class PatientClientServiceImpl implements PatientClientService {
     }
     @Override
     public List<PatientResponseDTO> getPatientsByLastName(String lastName,HttpSession session) {
-        HttpHeaders headers = getAuthHeaders(session);
+        HttpHeaders headers = getAuthHeaders.getAuthHeaders(session);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
         log.info("Calling Patient API to get patients with last name: {}", lastName);
         try {
@@ -79,7 +79,7 @@ public class PatientClientServiceImpl implements PatientClientService {
     }
     @Override
     public PatientResponseDTO getPatientByLastNameAndFirstName(String lastName, String firstName,HttpSession session) {
-        HttpHeaders headers = getAuthHeaders(session);
+        HttpHeaders headers = getAuthHeaders.getAuthHeaders(session);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
         log.info("Calling Patient API to get patient with last name: {} and first name: {}", lastName, firstName);
         try {
@@ -93,7 +93,7 @@ public class PatientClientServiceImpl implements PatientClientService {
     }
     @Override
     public PatientResponseDTO createPatient(PatientRequestDTO patient,HttpSession session) {
-        HttpHeaders headers = getAuthHeaders(session);
+        HttpHeaders headers = getAuthHeaders.getAuthHeaders(session);
         HttpEntity<PatientRequestDTO> entity = new HttpEntity<>(patient, headers);
         log.info("Calling Patient API to create patient with name: {} {}", patient.getFirstName(), patient.getLastName());
         try {
@@ -107,7 +107,7 @@ public class PatientClientServiceImpl implements PatientClientService {
     }
     @Override
     public PatientResponseDTO updatePatient(Long id, PatientRequestDTO patient,HttpSession session) {
-        HttpHeaders headers = getAuthHeaders(session);
+        HttpHeaders headers = getAuthHeaders.getAuthHeaders(session);
         log.info("Calling Patient API to update patient with ID: {}", id);
         try {
         HttpEntity<PatientRequestDTO> entity = new HttpEntity<>(patient, headers);
@@ -120,7 +120,7 @@ public class PatientClientServiceImpl implements PatientClientService {
     }
     @Override
     public void deletePatientById(Long id,HttpSession session) {
-        HttpHeaders headers = getAuthHeaders(session);
+        HttpHeaders headers = getAuthHeaders.getAuthHeaders(session);
         HttpEntity<Void> entity = new HttpEntity<>(headers);
         log.info("Calling Patient API to delete patient with ID: {}", id);
         try {
@@ -131,10 +131,5 @@ public class PatientClientServiceImpl implements PatientClientService {
         }
     }
 
-    private HttpHeaders getAuthHeaders(HttpSession session) {
-        String token = (String) session.getAttribute("jwt");
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        return headers;
-    }
+
 }
