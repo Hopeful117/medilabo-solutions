@@ -27,7 +27,7 @@ import java.util.List;
 public class PatientClientServiceImpl implements PatientClientService {
     private final RestTemplate restTemplate;
     private final GetAuthHeaders getAuthHeaders;
-    private final String BASE_URL = "http://localhost:8080/api/v1/patients";
+    private final String BASE_URL = "http://gateway:8080/api/v1/patients";
 
     @Override
     public List<PatientResponseDTO> getAllPatients(HttpSession session) {

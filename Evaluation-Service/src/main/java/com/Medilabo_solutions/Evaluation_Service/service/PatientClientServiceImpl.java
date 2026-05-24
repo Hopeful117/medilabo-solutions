@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class PatientClientServiceImpl implements PatientClientService {
     private final RestTemplate restTemplate;
-    private static final String PATIENT_SERVICE_URL = "http://localhost:8080/api/v1/patients";
+    private static final String PATIENT_SERVICE_URL = "http://gateway:8080/api/v1/patients";
 
 
     @Override

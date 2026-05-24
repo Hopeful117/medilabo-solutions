@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PatientHistoryClientServiceImpl implements PatientHistoryClientService {
     private final RestTemplate restTemplate;
-    private static final String PATIENT_HISTORY_SERVICE_URL = "http://localhost:8080/api/v1/history";
+    private static final String PATIENT_HISTORY_SERVICE_URL = "http://gateway:8080/api/v1/history";
 
 
     @Override

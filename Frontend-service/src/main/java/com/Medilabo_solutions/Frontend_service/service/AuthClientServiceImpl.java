@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class AuthClientServiceImpl implements AuthClientService {
     private final RestTemplate restTemplate;
-    private final String BASE_URL = "http://localhost:8080/api/v1/auth";
+    private final String BASE_URL = "http://gateway:8080/api/v1/auth";
 
     @Override
     public LoginResponseDTO authenticate(LoginRequestDTO loginRequestDTO) {

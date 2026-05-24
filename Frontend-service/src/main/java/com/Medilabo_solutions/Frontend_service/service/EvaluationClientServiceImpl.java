@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class EvaluationClientServiceImpl implements EvaluationClientService {
     private final RestTemplate restTemplate;
-    private final String BASE_URL = "http://localhost:8080/api/v1/evaluation";
+    private final String BASE_URL = "http://gateway:8080/api/v1/evaluation";
     private final GetAuthHeaders getAuthHeaders;
 
     @Override

@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 public class PatientHistoryClientServiceImpl implements PatientHistoryClientService {
     private final RestTemplate restTemplate;
-    private final String BASE_URL = "http://localhost:8080/api/v1/history";
+    private final String BASE_URL = "http://gateway:8080/api/v1/history";
     private final GetAuthHeaders getAuthHeaders;
 
     @Override

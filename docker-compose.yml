@@ -1,0 +1,195 @@
+
+services:
+  # =========================
+  # DISCOVERY SERVICE
+  # =========================
+  discovery-service:
+    build: ./Discovery-service
+    container_name: discovery-service
+    ports:
+      - "${DISCOVERY_PORT}:8761"
+    networks:
+      - medilabo-network
+
+
+  # =========================
+  # GATEWAY (point d'entrée)
+  # =========================
+  gateway:
+    build: ./Gateway-service
+    container_name: gateway
+    ports:
+      - "${GATEWAY_PORT}:8080"
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - jwt.expiration=${JWT_EXPIRATION}
+      - DISCOVERY_URL=${DISCOVERY_URL}
+    depends_on:
+      - discovery-service
+      - patient-service
+      - notes-service
+      - evaluation-service
+    networks:
+      - medilabo-network
+
+  # =========================
+  # FRONTEND
+  # =========================
+  frontend-service:
+    build: ./Frontend-service
+    container_name: frontend-service
+    ports:
+      - "${FRONT_PORT}:8082"
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - jwt.expiration=${JWT_EXPIRATION}
+    depends_on:
+      - gateway
+    networks:
+      - medilabo-network
+
+  # =========================
+  # PATIENT SERVICE
+  # =========================
+  patient-service:
+    build: ./Patient-service
+    container_name: patient-service
+    ports:
+      - "${PATIENT_PORT}:8081"
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - jwt.expiration=${JWT_EXPIRATION}
+      - spring.datasource.url=${DB_PATIENTS_URL}
+      - spring.datasource.username=${DB_USERNAME}
+      - spring.datasource.password=${DB_PASSWORD}
+      - DISCOVERY_URL=${DISCOVERY_URL}
+    depends_on:
+      - discovery-service
+      - mysql-patients
+    networks:
+      - medilabo-network
+
+
+
+  # =========================
+  # NOTES SERVICE (MongoDB)
+  # =========================
+  notes-service:
+    build: ./History-service
+    container_name: notes-service
+    ports:
+      - "${NOTES_PORT}:8083"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - jwt.expiration=${JWT_EXPIRATION}
+      - DISCOVERY_URL=${DISCOVERY_URL}
+    depends_on:
+      - discovery-service
+      - mongodb
+    networks:
+      - medilabo-network
+
+  # =========================
+  # EVALUATION SERVICE
+  # =========================
+  evaluation-service:
+    build: ./Evaluation-Service
+    container_name: evaluation-service
+    ports:
+      - "${EVALUATION_PORT}:8084"
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - jwt.expiration=${JWT_EXPIRATION}
+      - DISCOVERY_URL=${DISCOVERY_URL}
+    depends_on:
+      - discovery-service
+      - patient-service
+      - notes-service
+    networks:
+      - medilabo-network
+
+  # =========================
+  # SECURITY SERVICE
+  # =========================
+  security-service:
+    build: ./Security-service
+    container_name: security-service
+    ports:
+    - "${SECURITY_PORT}:8085"
+    environment:
+    - JWT_SECRET=${JWT_SECRET}
+    - jwt.expiration=${JWT_EXPIRATION}
+    - spring.datasource.url=${DB_SECURITY_URL}
+    - spring.datasource.username=${DB_USERNAME}
+    - spring.datasource.password=${DB_PASSWORD}
+    - DISCOVERY_URL=${DISCOVERY_URL}
+    depends_on:
+    - discovery-service
+    - mysql-security
+    networks:
+    - medilabo-network
+
+
+
+
+
+  # =========================
+  # MONGODB
+  # =========================
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - medilabo-network
+
+
+  #===========================
+  # PATIENTS DB (MySQL)
+  #===========================
+  mysql-patients:
+    image: mysql:8
+    container_name: mysql_patients
+    ports:
+      - "3308:3306"
+
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=patients_db
+
+    networks:
+        - medilabo-network
+
+  #===========================
+  # SECURITY DB (MySQL)
+  #===========================
+  mysql-security:
+    image: mysql:8
+    container_name: mysql_security
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=security_db
+
+    networks:
+        - medilabo-network
+
+# =========================
+# VOLUMES
+# =========================
+volumes:
+  mongo_data:
+
+
+
+# =========================
+# NETWORK
+# =========================
+networks:
+  medilabo-network:
+    driver: bridge

@@ -9,13 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityServiceApplication {
 
 	public static void main(String[] args) {
-        Dotenv dotenv = Dotenv.configure()
-                .ignoreIfMissing()
-                .load();
 
-        dotenv.entries().forEach(entry ->
-                System.setProperty(entry.getKey(), entry.getValue())
-        );
 
         SpringApplication.run(SecurityServiceApplication.class, args);
 	}
