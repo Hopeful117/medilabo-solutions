@@ -33,10 +33,16 @@ public class JwtAuthenticationFilter implements WebFilter {
 
         String path = exchange.getRequest().getURI().getPath();
 
-        // Autoriser les routes auth
-        if (path.contains("/auth")) {
+
+        // Autoriser les routes
+        if (path.contains("/auth")
+        || path.contains("/docs")
+        || path.contains("/swagger-ui")
+        || path.contains("/v3/api-docs")
+        ) {
             return chain.filter(exchange);
         }
+
 
         String authHeader = exchange
                 .getRequest()

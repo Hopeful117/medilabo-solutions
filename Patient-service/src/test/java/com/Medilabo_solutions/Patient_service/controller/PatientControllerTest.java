@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = PatientController.class)
 @Import(GlobalExceptionHandler.class)
 @DisplayName("PatientController - WebMvc Tests")
-@org.springframework.security.test.context.support.WithMockUser
+
 public class PatientControllerTest {
 
 	@Autowired
@@ -115,7 +115,6 @@ public class PatientControllerTest {
 		when(patientService.createPatient(any(Patient.class))).thenReturn(created);
 
 		mockMvc.perform(post("/patients/add")
-						.with(org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(json))
 				.andExpect(status().isCreated())
@@ -129,7 +128,7 @@ public class PatientControllerTest {
 		String json = "{\"lastName\":\"X\",\"dateOfBirth\":\"1990-01-01\",\"gender\":\"M\"}";
 
 		mockMvc.perform(post("/patients/add")
-						.with(org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf())
+
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(json))
 				.andExpect(status().isBadRequest())
@@ -144,7 +143,6 @@ public class PatientControllerTest {
 		when(patientService.createPatient(any(Patient.class))).thenThrow(new DuplicateResourceException("Dup"));
 
 		mockMvc.perform(post("/patients/add")
-						.with(org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(json))
 				.andExpect(status().isConflict())
@@ -164,7 +162,7 @@ public class PatientControllerTest {
 		when(patientService.updatePatient(org.mockito.ArgumentMatchers.eq(2L), any(Patient.class))).thenReturn(updated);
 
 		mockMvc.perform(put("/patients/update/2")
-						.with(org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf())
+
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(json))
 				.andExpect(status().isOk())
@@ -180,7 +178,7 @@ public class PatientControllerTest {
 		when(patientService.updatePatient(org.mockito.ArgumentMatchers.eq(999L), any(Patient.class))).thenThrow(new ResourceNotFoundException("Not found"));
 
 		mockMvc.perform(put("/patients/update/999")
-						.with(org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf())
+
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(json))
 				.andExpect(status().isNotFound())
@@ -195,7 +193,7 @@ public class PatientControllerTest {
 		when(patientService.updatePatient(org.mockito.ArgumentMatchers.eq(1L), any(Patient.class))).thenThrow(new InvalidDateException("Date invalid"));
 
 		mockMvc.perform(put("/patients/update/1")
-						.with(org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf())
+
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(json))
 				.andExpect(status().isBadRequest())
@@ -207,8 +205,8 @@ public class PatientControllerTest {
 	void deletePatient_success() throws Exception {
 		doNothing().when(patientService).deletePatient(3L);
 
-		mockMvc.perform(delete("/patients/delete/3")
-						.with(org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf()))
+		mockMvc.perform(delete("/patients/delete/3"))
+
 				.andExpect(status().isNoContent());
 	}
 
@@ -218,7 +216,7 @@ public class PatientControllerTest {
 		org.mockito.Mockito.doThrow(new ResourceNotFoundException("Not found")).when(patientService).deletePatient(99L);
 
 		mockMvc.perform(delete("/patients/delete/99")
-						.with(org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf()))
+						)
 				.andExpect(status().isNotFound())
 				.andExpect(jsonPath("$.status").value(404));
 	}

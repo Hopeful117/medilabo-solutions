@@ -11,6 +11,8 @@ services:
     networks:
       - medilabo-network
 
+    restart: unless-stopped
+
 
   # =========================
   # GATEWAY (point d'entrée)
@@ -26,11 +28,10 @@ services:
       - DISCOVERY_URL=${DISCOVERY_URL}
     depends_on:
       - discovery-service
-      - patient-service
-      - notes-service
-      - evaluation-service
     networks:
       - medilabo-network
+
+    restart: unless-stopped
 
   # =========================
   # FRONTEND
@@ -48,14 +49,16 @@ services:
     networks:
       - medilabo-network
 
+    restart: unless-stopped
+
   # =========================
   # PATIENT SERVICE
   # =========================
   patient-service:
     build: ./Patient-service
     container_name: patient-service
-    ports:
-      - "${PATIENT_PORT}:8081"
+    expose:
+      - "${PATIENT_PORT}"
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - jwt.expiration=${JWT_EXPIRATION}
@@ -65,20 +68,23 @@ services:
       - DISCOVERY_URL=${DISCOVERY_URL}
     depends_on:
       - discovery-service
+      - gateway
       - mysql-patients
     networks:
       - medilabo-network
 
+    restart: unless-stopped
+
 
 
   # =========================
-  # NOTES SERVICE (MongoDB)
+  # History SERVICE (MongoDB)
   # =========================
-  notes-service:
+  history-service:
     build: ./History-service
-    container_name: notes-service
-    ports:
-      - "${NOTES_PORT}:8083"
+    container_name: history-service
+    expose:
+      - "${HISTORY_PORT}"
     environment:
       - MONGO_URI=${MONGO_URI}
       - JWT_SECRET=${JWT_SECRET}
@@ -86,9 +92,13 @@ services:
       - DISCOVERY_URL=${DISCOVERY_URL}
     depends_on:
       - discovery-service
+      - gateway
       - mongodb
     networks:
       - medilabo-network
+
+
+    restart: unless-stopped
 
   # =========================
   # EVALUATION SERVICE
@@ -96,8 +106,8 @@ services:
   evaluation-service:
     build: ./Evaluation-Service
     container_name: evaluation-service
-    ports:
-      - "${EVALUATION_PORT}:8084"
+    expose:
+      - "${EVALUATION_PORT}"
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - jwt.expiration=${JWT_EXPIRATION}
@@ -105,9 +115,12 @@ services:
     depends_on:
       - discovery-service
       - patient-service
-      - notes-service
+      - history-service
+      - gateway
     networks:
       - medilabo-network
+
+    restart: unless-stopped
 
   # =========================
   # SECURITY SERVICE
@@ -115,8 +128,8 @@ services:
   security-service:
     build: ./Security-service
     container_name: security-service
-    ports:
-    - "${SECURITY_PORT}:8085"
+    expose:
+    - "${SECURITY_PORT}"
     environment:
     - JWT_SECRET=${JWT_SECRET}
     - jwt.expiration=${JWT_EXPIRATION}
@@ -127,8 +140,10 @@ services:
     depends_on:
     - discovery-service
     - mysql-security
+    - gateway
     networks:
     - medilabo-network
+    restart: unless-stopped
 
 
 
@@ -140,12 +155,13 @@ services:
   mongodb:
     image: mongo:6
     container_name: mongodb
-    ports:
-      - "27018:27017"
     volumes:
       - mongo_data:/data/db
     networks:
       - medilabo-network
+
+
+    restart: unless-stopped
 
 
   #===========================
@@ -154,8 +170,6 @@ services:
   mysql-patients:
     image: mysql:8
     container_name: mysql_patients
-    ports:
-      - "3308:3306"
 
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
@@ -164,20 +178,24 @@ services:
     networks:
         - medilabo-network
 
+
+    restart: unless-stopped
+
   #===========================
   # SECURITY DB (MySQL)
   #===========================
   mysql-security:
     image: mysql:8
     container_name: mysql_security
-    ports:
-      - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
       - MYSQL_DATABASE=security_db
 
     networks:
         - medilabo-network
+
+
+    restart: unless-stopped
 
 # =========================
 # VOLUMES
