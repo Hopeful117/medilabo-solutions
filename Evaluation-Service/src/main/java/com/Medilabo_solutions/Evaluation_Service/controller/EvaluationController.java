@@ -16,9 +16,13 @@ public class EvaluationController {
     private final EvaluationService evaluationService;
 
     @GetMapping("/patient/id/{patientId}")
-    public ResponseEntity<EvaluationResponseDTO> evaluatePatientRisk(@PathVariable Long patientId, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<EvaluationResponseDTO> evaluatePatientRisk(@PathVariable Long patientId) {
         log.info("Received request to evaluate risk for patient ID: {}", patientId);
-        EvaluationResponseDTO response = evaluationService.evaluatePatientRisk(patientId, token);
-        return ResponseEntity.ok(response);
+        try {
+            EvaluationResponseDTO response = evaluationService.evaluatePatientRisk(patientId);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

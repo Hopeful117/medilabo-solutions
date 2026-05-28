@@ -57,11 +57,11 @@ class EvaluationServiceImplTest {
             patient.setGender("M");
             notes = List.of();
 
-            when(patientClientService.getPatientById(1L, TOKEN)).thenReturn(patient);
-            when(patientHistoryClientService.getPatientNotesByPatientId(1L, TOKEN)).thenReturn(notes);
+            when(patientClientService.getPatientById(1L)).thenReturn(patient);
+            when(patientHistoryClientService.getPatientNotesByPatientId(1L)).thenReturn(notes);
 
             // Act
-            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(1L, TOKEN);
+            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(1L);
 
             // Assert
             assertEquals(RiskLevels.NONE, result.getRiskLevel());
@@ -80,11 +80,11 @@ class EvaluationServiceImplTest {
             PatientNoteResponseDTO note2 = createNoteWithTrigger(1L, "cholestérol");
             notes = List.of(note1, note2);
 
-            when(patientClientService.getPatientById(1L, TOKEN)).thenReturn(patient);
-            when(patientHistoryClientService.getPatientNotesByPatientId(1L, TOKEN)).thenReturn(notes);
+            when(patientClientService.getPatientById(1L)).thenReturn(patient);
+            when(patientHistoryClientService.getPatientNotesByPatientId(1L)).thenReturn(notes);
 
             // Act
-            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(1L, TOKEN);
+            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(1L);
 
             // Assert
             assertEquals(RiskLevels.BORDERLINE, result.getRiskLevel());
@@ -106,11 +106,11 @@ class EvaluationServiceImplTest {
                 .map(trigger -> createNoteWithTrigger(1L, trigger))
                 .toList();
 
-            when(patientClientService.getPatientById(1L, TOKEN)).thenReturn(patient);
-            when(patientHistoryClientService.getPatientNotesByPatientId(1L, TOKEN)).thenReturn(notes);
+            when(patientClientService.getPatientById(1L)).thenReturn(patient);
+            when(patientHistoryClientService.getPatientNotesByPatientId(1L)).thenReturn(notes);
 
             // Act
-            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(1L, TOKEN);
+            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(1L);
 
             // Assert
             assertEquals(RiskLevels.IN_DANGER, result.getRiskLevel());
@@ -132,11 +132,11 @@ class EvaluationServiceImplTest {
                 .map(trigger -> createNoteWithTrigger(1L, trigger))
                 .toList();
 
-            when(patientClientService.getPatientById(1L, TOKEN)).thenReturn(patient);
-            when(patientHistoryClientService.getPatientNotesByPatientId(1L, TOKEN)).thenReturn(notes);
+            when(patientClientService.getPatientById(1L)).thenReturn(patient);
+            when(patientHistoryClientService.getPatientNotesByPatientId(1L)).thenReturn(notes);
 
             // Act
-            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(1L, TOKEN);
+            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(1L);
 
             // Assert
             assertEquals(RiskLevels.EARLY_ONSET, result.getRiskLevel());
@@ -162,11 +162,11 @@ class EvaluationServiceImplTest {
                 PatientNoteResponseDTO note = createNoteWithTrigger(2L, "hémoglobine a1c");
                 notes = List.of(note);
 
-                when(patientClientService.getPatientById(2L, TOKEN)).thenReturn(patient);
-                when(patientHistoryClientService.getPatientNotesByPatientId(2L, TOKEN)).thenReturn(notes);
+                when(patientClientService.getPatientById(2L)).thenReturn(patient);
+                when(patientHistoryClientService.getPatientNotesByPatientId(2L)).thenReturn(notes);
 
                 // Act
-                EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(2L, TOKEN);
+                EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(2L);
 
                 // Assert
                 assertEquals(RiskLevels.NONE, result.getRiskLevel());
@@ -185,11 +185,11 @@ class EvaluationServiceImplTest {
                     .map(trigger -> createNoteWithTrigger(2L, trigger))
                     .toList();
 
-                when(patientClientService.getPatientById(2L, TOKEN)).thenReturn(patient);
-                when(patientHistoryClientService.getPatientNotesByPatientId(2L, TOKEN)).thenReturn(notes);
+                when(patientClientService.getPatientById(2L)).thenReturn(patient);
+                when(patientHistoryClientService.getPatientNotesByPatientId(2L)).thenReturn(notes);
 
                 // Act
-                EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(2L, TOKEN);
+                EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(2L);
 
                 // Assert
                 assertEquals(RiskLevels.IN_DANGER, result.getRiskLevel());
@@ -210,11 +210,11 @@ class EvaluationServiceImplTest {
                     .map(trigger -> createNoteWithTrigger(2L, trigger))
                     .toList();
 
-                when(patientClientService.getPatientById(2L, TOKEN)).thenReturn(patient);
-                when(patientHistoryClientService.getPatientNotesByPatientId(2L, TOKEN)).thenReturn(notes);
+                when(patientClientService.getPatientById(2L)).thenReturn(patient);
+                when(patientHistoryClientService.getPatientNotesByPatientId(2L)).thenReturn(notes);
 
                 // Act
-                EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(2L, TOKEN);
+                EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(2L);
 
                 // Assert
                 assertEquals(RiskLevels.EARLY_ONSET, result.getRiskLevel());
@@ -237,11 +237,11 @@ class EvaluationServiceImplTest {
                 PatientNoteResponseDTO note2 = createNoteWithTrigger(3L, "cholestérol");
                 notes = List.of(note1, note2);
 
-                when(patientClientService.getPatientById(3L, TOKEN)).thenReturn(patient);
-                when(patientHistoryClientService.getPatientNotesByPatientId(3L, TOKEN)).thenReturn(notes);
+                when(patientClientService.getPatientById(3L)).thenReturn(patient);
+                when(patientHistoryClientService.getPatientNotesByPatientId(3L)).thenReturn(notes);
 
                 // Act
-                EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(3L, TOKEN);
+                EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(3L);
 
                 // Assert
                 assertEquals(RiskLevels.NONE, result.getRiskLevel());
@@ -262,11 +262,11 @@ class EvaluationServiceImplTest {
                     .map(trigger -> createNoteWithTrigger(3L, trigger))
                     .toList();
 
-                when(patientClientService.getPatientById(3L, TOKEN)).thenReturn(patient);
-                when(patientHistoryClientService.getPatientNotesByPatientId(3L, TOKEN)).thenReturn(notes);
+                when(patientClientService.getPatientById(3L)).thenReturn(patient);
+                when(patientHistoryClientService.getPatientNotesByPatientId(3L)).thenReturn(notes);
 
                 // Act
-                EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(3L, TOKEN);
+                EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(3L);
 
                 // Assert
                 assertEquals(RiskLevels.IN_DANGER, result.getRiskLevel());
@@ -288,11 +288,11 @@ class EvaluationServiceImplTest {
                     .map(trigger -> createNoteWithTrigger(3L, trigger))
                     .toList();
 
-                when(patientClientService.getPatientById(3L, TOKEN)).thenReturn(patient);
-                when(patientHistoryClientService.getPatientNotesByPatientId(3L, TOKEN)).thenReturn(notes);
+                when(patientClientService.getPatientById(3L)).thenReturn(patient);
+                when(patientHistoryClientService.getPatientNotesByPatientId(3L)).thenReturn(notes);
 
                 // Act
-                EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(3L, TOKEN);
+                EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(3L);
 
                 // Assert
                 assertEquals(RiskLevels.EARLY_ONSET, result.getRiskLevel());
@@ -313,11 +313,11 @@ class EvaluationServiceImplTest {
             patient.setGender("M");
             notes = List.of();
 
-            when(patientClientService.getPatientById(4L, TOKEN)).thenReturn(patient);
-            when(patientHistoryClientService.getPatientNotesByPatientId(4L, TOKEN)).thenReturn(notes);
+            when(patientClientService.getPatientById(4L)).thenReturn(patient);
+            when(patientHistoryClientService.getPatientNotesByPatientId(4L)).thenReturn(notes);
 
             // Act
-            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(4L, TOKEN);
+            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(4L);
 
             // Assert
             assertEquals(RiskLevels.NONE, result.getRiskLevel());
@@ -338,11 +338,11 @@ class EvaluationServiceImplTest {
             note.setCreatedAt(LocalDateTime.now());
             notes = List.of(note);
 
-            when(patientClientService.getPatientById(5L, TOKEN)).thenReturn(patient);
-            when(patientHistoryClientService.getPatientNotesByPatientId(5L, TOKEN)).thenReturn(notes);
+            when(patientClientService.getPatientById(5L)).thenReturn(patient);
+            when(patientHistoryClientService.getPatientNotesByPatientId(5L)).thenReturn(notes);
 
             // Act
-            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(5L, TOKEN);
+            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(5L);
 
             // Assert
             assertNotEquals(RiskLevels.NONE, result.getRiskLevel());
@@ -359,11 +359,11 @@ class EvaluationServiceImplTest {
             PatientNoteResponseDTO note = createNoteWithTrigger(6L, "hémoglobine a1c");
             notes = List.of(note);
 
-            when(patientClientService.getPatientById(6L, TOKEN)).thenReturn(patient);
-            when(patientHistoryClientService.getPatientNotesByPatientId(6L, TOKEN)).thenReturn(notes);
+            when(patientClientService.getPatientById(6L)).thenReturn(patient);
+            when(patientHistoryClientService.getPatientNotesByPatientId(6L)).thenReturn(notes);
 
             // Act
-            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(6L, TOKEN);
+            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(6L);
 
             // Assert
             assertNotNull(result.getRiskLevel());
@@ -387,11 +387,11 @@ class EvaluationServiceImplTest {
             note.setCreatedAt(LocalDateTime.now());
             notes = List.of(note);
 
-            when(patientClientService.getPatientById(7L, TOKEN)).thenReturn(patient);
-            when(patientHistoryClientService.getPatientNotesByPatientId(7L, TOKEN)).thenReturn(notes);
+            when(patientClientService.getPatientById(7L)).thenReturn(patient);
+            when(patientHistoryClientService.getPatientNotesByPatientId(7L)).thenReturn(notes);
 
             // Act
-            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(7L, TOKEN);
+            EvaluationResponseDTO result = evaluationService.evaluatePatientRisk(7L);
 
             // Assert
             // Avec 1 seul trigger compté (le premier trouvé: hémoglobine a1c)

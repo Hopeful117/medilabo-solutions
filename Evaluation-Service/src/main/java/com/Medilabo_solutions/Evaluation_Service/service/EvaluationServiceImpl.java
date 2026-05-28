@@ -17,10 +17,38 @@ public class EvaluationServiceImpl implements EvaluationService {
     private final PatientHistoryClientService patientHistoryClientService;
     private final PatientClientService patientClientService;
 
+    private static final List<String> TRIGGERS = List.of(
+            "hémoglobine a1c",
+            "microalbumine",
+            "taille",
+            "poids",
+            "fumeur",
+            "fumeuse",
+            "anormal",
+            "cholestérol",
+            "vertiges",
+            "rechute",
+            "réaction",
+            "anticorps"
+    );
+
+    private static final List<String> SKIPPERS = List.of(
+            "bien",
+            "bon",
+            "correct",
+            "stable",
+            "ok",
+            "positif",
+            "satisfaisant",
+            "équilibré",
+            "rassurant"
+
+    );
+
     @Override
-    public EvaluationResponseDTO evaluatePatientRisk(Long patientId, String token   ) {
-        var patient = patientClientService.getPatientById(patientId,token);
-        var notes = patientHistoryClientService.getPatientNotesByPatientId(patientId,token);
+    public EvaluationResponseDTO evaluatePatientRisk(Long patientId) {
+        var patient = patientClientService.getPatientById(patientId);
+        var notes = patientHistoryClientService.getPatientNotesByPatientId(patientId);
         int age = calculateAge(patient.getDateOfBirth());
         int triggerCount = countTriggers(notes.stream().map(PatientNoteResponseDTO::getNote).toList());
 
@@ -48,37 +76,28 @@ public class EvaluationServiceImpl implements EvaluationService {
         return RiskLevels.EARLY_ONSET;
     }
 
-    private static final List<String> TRIGGERS = List.of(
-            "hémoglobine a1c",
-            "microalbumine",
-            "taille",
-            "poids",
-            "fumeur",
-            "fumeuse",
-            "anormal",
-            "cholestérol",
-            "vertiges",
-            "rechute",
-            "réaction",
-            "anticorps"
-    );
-
     private int calculateAge(LocalDate birthDate) {
         return Period.between(birthDate, LocalDate.now()).getYears();
     }
+
     private int countTriggers(List<String> notes) {
         int count = 0;
-        for (String note : notes) {
-            for (String trigger : TRIGGERS) {
-                if(note.toLowerCase().contains("bien")){
-                    continue;
-                }
-                if (note.toLowerCase().contains(trigger)) {
-                    count++;
 
-                }
-            }
+        for (String note : notes) {
+            String lowerNote = note.toLowerCase();
+
+
+            boolean hasSkipper = SKIPPERS.stream()
+                    .anyMatch(lowerNote::contains);
+
+            if (hasSkipper) continue;
+
+
+            count += (int) TRIGGERS.stream()
+                    .filter(lowerNote::contains)
+                    .count();
         }
+
         return count;
     }
 }
