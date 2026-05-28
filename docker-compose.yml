@@ -44,6 +44,7 @@ services:
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - jwt.expiration=${JWT_EXPIRATION}
+      - DISCOVERY_URL=${DISCOVERY_URL}
     depends_on:
       - gateway
     networks:

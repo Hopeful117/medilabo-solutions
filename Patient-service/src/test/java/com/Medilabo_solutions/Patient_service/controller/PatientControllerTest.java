@@ -200,25 +200,8 @@ public class PatientControllerTest {
 				.andExpect(jsonPath("$.status").value(400));
 	}
 
-	@Test
-	@DisplayName("DELETE /patients/delete/{id} - success -> 204")
-	void deletePatient_success() throws Exception {
-		doNothing().when(patientService).deletePatient(3L);
 
-		mockMvc.perform(delete("/patients/delete/3"))
 
-				.andExpect(status().isNoContent());
-	}
 
-	@Test
-	@DisplayName("DELETE /patients/delete/{id} - not found -> 404")
-	void deletePatient_notFound() throws Exception {
-		org.mockito.Mockito.doThrow(new ResourceNotFoundException("Not found")).when(patientService).deletePatient(99L);
-
-		mockMvc.perform(delete("/patients/delete/99")
-						)
-				.andExpect(status().isNotFound())
-				.andExpect(jsonPath("$.status").value(404));
-	}
 }
 

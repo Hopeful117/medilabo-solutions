@@ -2,11 +2,19 @@ package com.Medilabo_solutions.Frontend_service.service;
 
 import com.Medilabo_solutions.Frontend_service.dto.PatientNoteRequestDTO;
 import com.Medilabo_solutions.Frontend_service.dto.PatientNoteResponseDTO;
-import jakarta.servlet.http.HttpSession;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
+@FeignClient(name="HISTORY-SERVICE")
 public interface PatientHistoryClientService {
-List<PatientNoteResponseDTO> getPatientNotesByPatientId(Long patientId, HttpSession session);
-PatientNoteResponseDTO addPatientNoteToPatient(Long patientId, PatientNoteRequestDTO patientNoteRequest, HttpSession session);
+
+@RequestMapping(method= RequestMethod.GET, value="/history/patient/id/{patientId}")
+List<PatientNoteResponseDTO> getPatientNotesByPatientId(@PathVariable ("patientId") long patientId);
+
+@RequestMapping(method= RequestMethod.POST, value="/history/patient/id/{patientId}")
+void addPatientNoteToPatient(@PathVariable("patientId") long patientId, PatientNoteRequestDTO patientNoteRequest);
 }

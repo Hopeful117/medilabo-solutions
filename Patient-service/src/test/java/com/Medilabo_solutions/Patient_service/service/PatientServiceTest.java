@@ -87,7 +87,7 @@ public class PatientServiceTest {
     @DisplayName("Should retrieve an empty list when no patients exist")
     void testGetAllPatientsEmpty() {
 
-        when(patientRepository.findAll()).thenReturn(Arrays.asList());
+        when(patientRepository.findAll()).thenReturn(List.of());
 
 
         List<Patient> result = patientService.getAllPatients();
@@ -236,141 +236,13 @@ public class PatientServiceTest {
         verify(patientRepository, never()).save(any(Patient.class));
     }
 
-    /**
-     * Test deleting a patient successfully.
-     */
-    @Test
-    @DisplayName("Should delete a patient successfully")
-    void testDeletePatient_Success() {
-
-        when(patientRepository.findById(1L)).thenReturn(Optional.of(testPatient));
-        doNothing().when(patientRepository).delete(any(Patient.class));
 
 
-        patientService.deletePatient(1L);
 
 
-        verify(patientRepository, times(1)).findById(1L);
-        verify(patientRepository, times(1)).delete(testPatient);
-    }
-    /**
-     * Test deleting a non-existent patient.
-     * Should throw ResourceNotFoundException.
-     */
-    @Test
-    @DisplayName("Should throw ResourceNotFoundException when deleting non-existent patient")
-    void testDeletePatient_NotFound() {
-
-        when(patientRepository.findById(anyLong())).thenReturn(Optional.empty());
 
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            patientService.deletePatient(999L);
-        });
-        verify(patientRepository, times(1)).findById(999L);
-        verify(patientRepository, never()).delete(any(Patient.class));
-    }
-    /**
-     * Test retrieving patients by last name successfully.
-     */
-    @Test
-    @DisplayName("Should retrieve patients by last name successfully")
-    void testGetPatientsByLastName_Success() {
-        // Arrange
-        List<Patient> patients = Arrays.asList(testPatient);
-        when(patientRepository.findByLastName("Doe")).thenReturn(patients);
 
-        // Act
-        List<Patient> result = patientService.getPatientsByLastName("Doe");
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("John", result.get(0).getFirstName());
-        assertEquals("Doe", result.get(0).getLastName());
-        verify(patientRepository, times(1)).findByLastName("Doe");
-    }
-    /**
-     * Test retrieving patients by last name when no patients are found.
-     * Should return an empty list.
-     */
-    @Test
-    @DisplayName("Should return empty list when no patients found by last name")
-    void testGetPatientsByLastName_Empty() {
-        // Arrange
-        when(patientRepository.findByLastName("Unknown")).thenReturn(Arrays.asList());
-
-        // Act
-        List<Patient> result = patientService.getPatientsByLastName("Unknown");
-
-        // Assert
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-        verify(patientRepository, times(1)).findByLastName("Unknown");
-    }
-    /**
-     * Test retrieving multiple patients by last name successfully.
-     */
-    @Test
-    @DisplayName("Should retrieve multiple patients by last name")
-    void testGetPatientsByLastName_Multiple() {
-
-        Patient anotherSameName = new Patient();
-        anotherSameName.setId(3);
-        anotherSameName.setFirstName("Jack");
-        anotherSameName.setLastName("Doe");
-
-        List<Patient> patients = Arrays.asList(testPatient, anotherSameName);
-        when(patientRepository.findByLastName("Doe")).thenReturn(patients);
-
-
-        List<Patient> result = patientService.getPatientsByLastName("Doe");
-
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals("John", result.get(0).getFirstName());
-        assertEquals("Jack", result.get(1).getFirstName());
-        verify(patientRepository, times(1)).findByLastName("Doe");
-    }
-    /**
-     * Test retrieving a patient by last name and first name successfully.
-     */
-    @Test
-    @DisplayName("Should retrieve patient by last name and first name successfully")
-    void testGetPatientByLastNameAndFirstName_Success() {
-
-        when(patientRepository.findByLastNameAndFirstName("Doe", "John"))
-                .thenReturn(Optional.of(testPatient));
-
-
-        Patient result = patientService.getPatientByLastNameAndFirstName("Doe", "John");
-
-
-        assertNotNull(result);
-        assertEquals(1, result.getId());
-        assertEquals("John", result.getFirstName());
-        assertEquals("Doe", result.getLastName());
-        verify(patientRepository, times(1)).findByLastNameAndFirstName("Doe", "John");
-    }
-    /**
-     * Test retrieving a patient by last name and first name when the patient does not exist.
-     * Should throw ResourceNotFoundException.
-     */
-    @Test
-    @DisplayName("Should throw ResourceNotFoundException when patient not found by last and first name")
-    void testGetPatientByLastNameAndFirstName_NotFound() {
-
-        when(patientRepository.findByLastNameAndFirstName("Unknown", "Unknown"))
-                .thenReturn(Optional.empty());
-
-        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
-            patientService.getPatientByLastNameAndFirstName("Unknown", "Unknown");
-        });
-
-        assertTrue(exception.getMessage().contains("Patient not found with name: Unknown Unknown"));
-        verify(patientRepository, times(1)).findByLastNameAndFirstName("Unknown", "Unknown");
-    }
     /**
      * Test updating multiple fields of an existing patient successfully.
      */
