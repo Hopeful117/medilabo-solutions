@@ -56,18 +56,13 @@ public class PatientController {
     @GetMapping("/patients/id/{id}")
     public String getPatientById(@PathVariable Long id, Model model) {
         log.info("Accessing patient detail page for patient ID: {}", id);
-            try{
+
             model.addAttribute("patient", patientClientService.getPatientById(id));
             model.addAttribute("notes", patientHistoryClientService.getPatientNotesByPatientId(id));
             model.addAttribute("evaluation", evaluationClientService.getEvaluationByPatientId(id));
 
             return "patient-detail";
-            } catch (FeignException.FeignClientException exception) {
-                model.addAttribute("status", exception.status());
-                model.addAttribute("message",exception.getMessage().);
-                return "error";
 
-            }
 
     }
 

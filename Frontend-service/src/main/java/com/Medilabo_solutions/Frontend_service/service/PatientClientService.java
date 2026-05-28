@@ -2,6 +2,7 @@ package com.Medilabo_solutions.Frontend_service.service;
 
 import com.Medilabo_solutions.Frontend_service.dto.PatientRequestDTO;
 import com.Medilabo_solutions.Frontend_service.dto.PatientResponseDTO;
+import com.Medilabo_solutions.Frontend_service.feign.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient("PATIENT-SERVICE")
+@FeignClient(name="PATIENT-SERVICE",configuration = FeignConfig.class)
 public interface PatientClientService {
 
     @RequestMapping(method = RequestMethod.GET, value = "/patients/all")
