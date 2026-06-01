@@ -10,7 +10,7 @@
         <module name="Gateway-service" />
         <module name="Discovery-service" />
       </profile>
-      <profile name="Annotation profile for Security-service" enabled="true">
+      <profile name="Annotation profile for Evaluation-Service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
