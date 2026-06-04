@@ -1,3 +1,152 @@
+# Installation et démarrage
+
+## Prérequis
+
+Avant de lancer le projet, assurez-vous de disposer des outils suivants :
+
+* Docker
+* Docker Compose
+* Git
+
+> Le projet a été conçu pour être exécuté intégralement à l'aide de conteneurs Docker. Aucune installation locale de Java, MySQL ou MongoDB n'est nécessaire.
+
+---
+
+## Cloner le projet
+
+```bash
+git clone https://github.com/Hopeful117/medilabo-solutions.git
+cd medilabo-solutions
+```
+
+---
+
+## Configuration des variables d'environnement
+
+Créer un fichier `.env` à la racine du projet :
+
+```bash
+touch .env
+```
+
+Puis renseigner les variables suivantes :
+
+```env
+# =========================
+# PORTS
+# =========================
+DISCOVERY_PORT=8761
+GATEWAY_PORT=8080
+FRONT_PORT=8082
+
+PATIENT_PORT=8081
+HISTORY_PORT=8083
+EVALUATION_PORT=8084
+SECURITY_PORT=8085
+
+# =========================
+# JWT
+# =========================
+JWT_SECRET=ChangeMeWithAStrongSecretKey
+JWT_EXPIRATION=86400000
+
+# =========================
+# EUREKA
+# =========================
+DISCOVERY_URL=http://discovery-service:8761/eureka
+
+# =========================
+# MYSQL
+# =========================
+DB_USERNAME=root
+DB_PASSWORD=password
+
+DB_PATIENTS_URL=jdbc:mysql://mysql-patients:3306/patients_db?useSSL=false&serverTimezone=UTC
+DB_SECURITY_URL=jdbc:mysql://mysql-security:3306/security_db?useSSL=false&serverTimezone=UTC
+
+# =========================
+# MONGODB
+# =========================
+MONGO_URI=mongodb://mongodb:27017/history_db
+```
+
+---
+
+## Lancement de l'application
+
+Construire les images Docker puis démarrer l'ensemble des services :
+
+```bash
+docker compose up --build
+```
+
+Ou, selon votre version de Docker :
+
+```bash
+docker-compose up --build
+```
+
+Le premier démarrage peut prendre plusieurs minutes car les images doivent être construites et les dépendances téléchargées.
+
+---
+
+## Services démarrés
+
+L'application lance automatiquement :
+
+* Discovery Service (Eureka)
+* Gateway
+* Front-End
+* Patient Service
+* History Service
+* Evaluation Service
+* Security Service
+* MySQL (patients)
+* MySQL (security)
+* MongoDB
+
+---
+
+## Accès à l'application
+
+Une fois tous les conteneurs démarrés :
+
+| Service          | URL                   |
+| ---------------- | --------------------- |
+| Front-End        | http://localhost:8082 |
+| Eureka Dashboard | http://localhost:8761 |
+| Gateway          | http://localhost:8080 |
+
+Les microservices internes ne sont pas exposés directement et sont accessibles via la Gateway.
+
+---
+
+## Arrêt de l'application
+
+```bash
+docker compose down
+```
+
+Ou :
+
+```bash
+docker-compose down
+```
+
+---
+
+## Notes complémentaires
+
+* Toutes les données MongoDB sont persistées dans le volume Docker `mongo_data`.
+* Les conteneurs utilisent une politique de redémarrage automatique (`restart: unless-stopped`) afin d'améliorer la résilience de l'application.
+* Les services communiquent au travers d'un réseau Docker dédié (`medilabo-network`).
+* Eureka assure la découverte dynamique des services.
+* La Gateway constitue l'unique point d'entrée de l'architecture et assure notamment la propagation des JWT entre les différents microservices.
+
+
+
+# Le Green Code
+ 
 ## Qu’est ce que le Green Code ?
 
 Le Green code est une pratique ayant pour objectifs d’introduire des solutions réduisant l’impact écologique dans les cycles de développement de logiciels informatiques.

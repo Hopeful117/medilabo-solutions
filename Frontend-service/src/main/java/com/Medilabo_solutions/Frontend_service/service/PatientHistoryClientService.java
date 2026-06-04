@@ -13,8 +13,8 @@ import java.util.List;
 public interface PatientHistoryClientService {
 
 @RequestMapping(method= RequestMethod.GET, value="/history/patient/id/{patientId}")
-List<PatientNoteResponseDTO> getPatientNotesByPatientId(@PathVariable ("patientId") long patientId);
+List<PatientNoteResponseDTO> getPatientNotesByPatientId(@PathVariable long patientId);
 
 @RequestMapping(method= RequestMethod.POST, value="/history/patient/id/{patientId}")
-void addPatientNoteToPatient(@PathVariable("patientId") long patientId, PatientNoteRequestDTO patientNoteRequest);
+void addPatientNoteToPatient(@PathVariable long patientId, PatientNoteRequestDTO patientNoteRequest);
 }

@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "PATIENT-SERVICE")
 public interface PatientClientService {
     @RequestMapping(method= RequestMethod.GET, value="/patients/id/{patientId}")
-    PatientResponseDTO getPatientById(@PathVariable ("patientId") Long patientId);
+    PatientResponseDTO getPatientById(@PathVariable Long patientId);
 }

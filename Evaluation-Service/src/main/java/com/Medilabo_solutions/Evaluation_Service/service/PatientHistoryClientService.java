@@ -12,6 +12,6 @@ import java.util.List;
 @FeignClient("HISTORY-SERVICE")
 public interface PatientHistoryClientService {
     @RequestMapping(method= RequestMethod.GET,value="/history/patient/id/{patientId}")
-    List<PatientNoteResponseDTO> getPatientNotesByPatientId(@PathVariable("patientId") Long patientId);
+    List<PatientNoteResponseDTO> getPatientNotesByPatientId(@PathVariable Long patientId);
 
 }

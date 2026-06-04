@@ -30,21 +30,7 @@ public class JwtService {
                 .compact();
     }
 
-    public String extractUsername(String token) {
-        return Jwts.parser()
-                .setSigningKey(secretKey)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
-    }
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parser().setSigningKey(secretKey).build().parseSignedClaims(token);
-            return true;
-        } catch (JwtException e) {
-            return false;
-        }
-    }
+
+
 }
 

@@ -17,13 +17,13 @@ public interface PatientClientService {
     List<PatientResponseDTO> getAllPatients();
 
     @RequestMapping(method = RequestMethod.GET, value = "/patients/id/{id}")
-    PatientResponseDTO getPatientById(@PathVariable("id") Long id);
+    PatientResponseDTO getPatientById(@PathVariable Long id);
 
     @RequestMapping(method = RequestMethod.POST, value = "/patients/add")
     void createPatient(PatientRequestDTO patientRequest);
 
     @RequestMapping(method = RequestMethod.PUT, value = "/patients/update/id/{id}")
-    void updatePatient(@PathVariable("id") long id, PatientRequestDTO patientRequest);
+    void updatePatient(@PathVariable long id, PatientRequestDTO patientRequest);
 
 }
 

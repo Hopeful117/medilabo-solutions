@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name="EVALUATION-SERVICE")
 public interface EvaluationClientService {
     @RequestMapping(method = RequestMethod.GET,value="/evaluation/patient/id/{patientId}")
-    EvaluationResponseDTO getEvaluationByPatientId(@PathVariable("patientId") long patientId);
+    EvaluationResponseDTO getEvaluationByPatientId(@PathVariable long patientId);
 }
