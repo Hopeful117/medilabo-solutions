@@ -50,7 +50,7 @@ public class EvaluationControllerTest {
         mockResponse.setRiskLevel(RiskLevels.NONE);
         mockResponse.setId(patientId);
 
-        when(evaluationService.evaluatePatientRisk(patientId, token)).thenReturn(mockResponse);
+        when(evaluationService.evaluatePatientRisk(patientId)).thenReturn(mockResponse);
         mockMvc.perform(get("/evaluation/patient/id/{patientId}", patientId)
                         .header("Authorization", token))
                 .andExpect(status().isOk())
@@ -65,7 +65,7 @@ public class EvaluationControllerTest {
         Long patientId = 999L;
         String token = "Bearer some-valid-jwt-token";
 
-        when(evaluationService.evaluatePatientRisk(patientId, token)).thenThrow(new PatientNotFoundException("Patient not found"));
+        when(evaluationService.evaluatePatientRisk(patientId)).thenThrow(new PatientNotFoundException("Patient not found"));
         mockMvc.perform(get("/evaluation/patient/id/{patientId}", patientId)
                         .header("Authorization", token))
                 .andExpect(status().isNotFound());

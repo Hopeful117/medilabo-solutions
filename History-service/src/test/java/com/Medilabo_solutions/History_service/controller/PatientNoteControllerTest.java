@@ -1,7 +1,6 @@
 package com.Medilabo_solutions.History_service.controller;
 
 import com.Medilabo_solutions.History_service.config.GlobalExceptionHandler;
-import com.Medilabo_solutions.History_service.dto.PatientNoteRequestDTO;
 import com.Medilabo_solutions.History_service.dto.PatientNoteResponseDTO;
 import com.Medilabo_solutions.History_service.exception.NoteNotFoundException;
 import com.Medilabo_solutions.History_service.service.PatientNoteService;
@@ -11,24 +10,23 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import org.springframework.http.MediaType;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.*;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @ExtendWith(SpringExtension.class)
@@ -41,15 +39,13 @@ public class PatientNoteControllerTest {
     @MockitoBean
     private PatientNoteService patientNoteService;
 
-        /**
-        * Test cases:
-        * POST /patients/{patientId}/notes -> 201 + created note
-        * POST /patients/{patientId}/notes -> 400 if validation error
-        * GET /patients/{patientId}/notes -> 200 + list of notes
-        * GET /patients/{patientId}/notes -> 404 if patient not found
-        */
-
-
+    /**
+     * Test cases:
+     * POST /patients/{patientId}/notes -> 201 + created note
+     * POST /patients/{patientId}/notes -> 400 if validation error
+     * GET /patients/{patientId}/notes -> 200 + list of notes
+     * GET /patients/{patientId}/notes -> 404 if patient not found
+     */
 
 
     @Test

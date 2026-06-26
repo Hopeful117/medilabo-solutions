@@ -18,6 +18,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @RequiredArgsConstructor
+
 public class Patient {
 
     public enum Gender{
@@ -47,6 +48,13 @@ public class Patient {
     private String address;
 
     private String phoneNumber;
+
+    public Patient (String firstName,String lastName,LocalDate dateOfBirth,Gender gender){
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.dateOfBirth=dateOfBirth;
+        this.gender=gender;
+    }
 
 
     }

@@ -38,10 +38,7 @@
         <td>
             <a class="btn btn-info btn-sm" th:href="@{'/patients/id/' + ${patient.id}}">Détail</a>
             <a class="btn btn-warning btn-sm" th:href="@{'/patients/edit/id/' + ${patient.id}}">Modifier</a>
-            <a class="btn btn-danger btn-sm" th:href="@{'/patients/delete/id/' + ${patient.id}}"
-            onclick="return confirm('Supprimer ce patient ?')">
-                Supprimer
-            </a>
+
         </td>
 
     </tr>

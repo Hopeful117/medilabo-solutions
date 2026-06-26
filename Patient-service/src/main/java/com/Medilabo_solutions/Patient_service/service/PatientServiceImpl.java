@@ -85,41 +85,10 @@ public class PatientServiceImpl implements PatientService {
 
         return patientRepository.save(existingPatient);
     }
-    /**
-     * Deletes a patient from the database.
-     * @param id the ID of the patient to delete
-     * @throws ResourceNotFoundException if no patient is found with the given ID
-     */
-    @Override
-    public void deletePatient(Long id) {
-        Patient patient = getPatientById(id);
-        patientRepository.delete(patient);
-    }
 
-    /**
-     * Retrieves a list of patients by their last name.
-     * @param lastName the last name to search for
-     * @return a list of patients with the specified last name
-     */
-    @Override
-    public List<Patient> getPatientsByLastName(String lastName) {
-        return patientRepository.findByLastName(lastName);
-    }
-    /**
-     * Retrieves a patient by their last name and first name.
-     * @param lastName the last name of the patient
-     * @param firstName the first name of the patient
-     * @return the patient with the specified last name and first name
-     * @throws ResourceNotFoundException if no patient is found with the given last name and first name
-     */
-    @Override
-    public Patient getPatientByLastNameAndFirstName(String lastName, String firstName) {
-        return patientRepository.findByLastNameAndFirstName(lastName, firstName)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Patient not found with name: " + firstName + " " + lastName
-                ));
 
-    }
+
+
 }
 
 

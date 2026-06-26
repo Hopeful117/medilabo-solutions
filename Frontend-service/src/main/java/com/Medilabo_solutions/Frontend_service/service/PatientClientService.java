@@ -2,16 +2,28 @@ package com.Medilabo_solutions.Frontend_service.service;
 
 import com.Medilabo_solutions.Frontend_service.dto.PatientRequestDTO;
 import com.Medilabo_solutions.Frontend_service.dto.PatientResponseDTO;
-import jakarta.servlet.http.HttpSession;
+import com.Medilabo_solutions.Frontend_service.feign.FeignConfig;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
+@FeignClient(name="PATIENT-SERVICE",configuration = FeignConfig.class)
 public interface PatientClientService {
-    List<PatientResponseDTO> getAllPatients(HttpSession session);
-    PatientResponseDTO getPatientById(Long id, HttpSession session);
-    List<PatientResponseDTO> getPatientsByLastName(String name, HttpSession session);
-    PatientResponseDTO getPatientByLastNameAndFirstName(String lastName, String firstName, HttpSession session);
-     PatientResponseDTO createPatient(PatientRequestDTO patientRequest, HttpSession session);
-     PatientResponseDTO updatePatient(Long id, PatientRequestDTO patientRequest, HttpSession session);
-     void deletePatientById(Long id, HttpSession session);
+
+    @RequestMapping(method = RequestMethod.GET, value = "/patients/all")
+    List<PatientResponseDTO> getAllPatients();
+
+    @RequestMapping(method = RequestMethod.GET, value = "/patients/id/{id}")
+    PatientResponseDTO getPatientById(@PathVariable Long id);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/patients/add")
+    void createPatient(PatientRequestDTO patientRequest);
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/patients/update/id/{id}")
+    void updatePatient(@PathVariable long id, PatientRequestDTO patientRequest);
+
 }
+

@@ -2,7 +2,6 @@ package com.Medilabo_solutions.History_service.controller;
 
 import com.Medilabo_solutions.History_service.dto.PatientNoteRequestDTO;
 import com.Medilabo_solutions.History_service.dto.PatientNoteResponseDTO;
-import com.Medilabo_solutions.History_service.model.PatientNote;
 import com.Medilabo_solutions.History_service.service.PatientNoteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -52,34 +52,9 @@ public class PatientController {
         return ResponseEntity.ok(Mapper.toResponse(patientService.getPatientById(id)));
     }
 
-    /**
-     * Get patients by last name.
-     *
-     * @param lastName Patient's last name
-     * @return List of PatientResponseDTO wrapped in ResponseEntity
-     */
-    @GetMapping("/lastname/{lastName}")
-    public ResponseEntity<List<PatientResponseDTO>> getPatientsByLastName(@PathVariable String lastName) {
-        log.info("Received request to get patients with last name: {}", lastName);
-        List<PatientResponseDTO> response = patientService.getPatientsByLastName(lastName).stream()
-                .map(Mapper::toResponse)
-                .toList();
-        return ResponseEntity.ok(response);
-    }
 
-    /**
-     * Get a patient by last name and first name.
-     *
-     * @param lastName  Patient's last name
-     * @param firstName Patient's first name
-     * @return PatientResponseDTO wrapped in ResponseEntity
-     */
-    @GetMapping("/{lastName}/{firstName}")
-    public ResponseEntity<PatientResponseDTO> getPatientByLastNameAndFirstName(@PathVariable String lastName, @PathVariable String firstName) {
-        log.info("Received request to get patient with last name: {} and first name: {}", lastName, firstName);
-        PatientResponseDTO response = Mapper.toResponse(patientService.getPatientByLastNameAndFirstName(lastName, firstName));
-        return ResponseEntity.ok(response);
-    }
+
+
 
     /**
      * Create a new patient.
@@ -111,17 +86,6 @@ public class PatientController {
         return ResponseEntity.ok(Mapper.toResponse(updated));
     }
 
-    /**
-     * Delete a patient by ID.
-     *
-     * @param id Patient ID
-     * @return ResponseEntity with HTTP status 204 (No Content)
-     */
-    @DeleteMapping("/delete/id/{id}")
-    public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
-        log.info("Received request to delete patient with ID: {}", id);
-        patientService.deletePatient(id);
-        return ResponseEntity.noContent().build();
-    }
+
 
 }

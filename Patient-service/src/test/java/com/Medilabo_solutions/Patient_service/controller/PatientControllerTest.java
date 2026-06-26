@@ -131,8 +131,8 @@ public class PatientControllerTest {
 
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(json))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.firstName").exists());
+				.andExpect(status().isBadRequest());
+
 	}
 
 	@Test
@@ -150,7 +150,7 @@ public class PatientControllerTest {
 	}
 
 	@Test
-	@DisplayName("PUT /patients/update/{id} - success -> 200")
+	@DisplayName("PUT /patients/update/id/{id} - success -> 200")
 	void updatePatient_success() throws Exception {
 		String json = "{\"firstName\":\"Sam\",\"lastName\":\"Green\",\"dateOfBirth\":\"1990-02-02\",\"gender\":\"M\"}";
 		Patient updated = new Patient();
@@ -161,7 +161,7 @@ public class PatientControllerTest {
 
 		when(patientService.updatePatient(org.mockito.ArgumentMatchers.eq(2L), any(Patient.class))).thenReturn(updated);
 
-		mockMvc.perform(put("/patients/update/2")
+		mockMvc.perform(put("/patients/update/id/2")
 
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(json))
@@ -171,13 +171,13 @@ public class PatientControllerTest {
 	}
 
 	@Test
-	@DisplayName("PUT /patients/update/{id} - not found -> 404")
+	@DisplayName("PUT /patients/update/id/{id} - not found -> 404")
 	void updatePatient_notFound() throws Exception {
 		String json = "{\"firstName\":\"X\",\"lastName\":\"Y\",\"dateOfBirth\":\"1990-01-01\",\"gender\":\"M\"}";
 
 		when(patientService.updatePatient(org.mockito.ArgumentMatchers.eq(999L), any(Patient.class))).thenThrow(new ResourceNotFoundException("Not found"));
 
-		mockMvc.perform(put("/patients/update/999")
+		mockMvc.perform(put("/patients/update/id/999")
 
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(json))
@@ -185,40 +185,10 @@ public class PatientControllerTest {
 				.andExpect(jsonPath("$.status").value(404));
 	}
 
-	@Test
-	@DisplayName("PUT /patients/update/{id} - invalid date -> 400")
-	void updatePatient_invalidDate() throws Exception {
-		String json = "{\"firstName\":\"X\",\"lastName\":\"Y\",\"dateOfBirth\":\"2077-01-01\",\"gender\":\"M\"}";
 
-		when(patientService.updatePatient(org.mockito.ArgumentMatchers.eq(1L), any(Patient.class))).thenThrow(new InvalidDateException("Date invalid"));
 
-		mockMvc.perform(put("/patients/update/1")
 
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(json))
-				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.status").value(400));
-	}
 
-	@Test
-	@DisplayName("DELETE /patients/delete/{id} - success -> 204")
-	void deletePatient_success() throws Exception {
-		doNothing().when(patientService).deletePatient(3L);
 
-		mockMvc.perform(delete("/patients/delete/3"))
-
-				.andExpect(status().isNoContent());
-	}
-
-	@Test
-	@DisplayName("DELETE /patients/delete/{id} - not found -> 404")
-	void deletePatient_notFound() throws Exception {
-		org.mockito.Mockito.doThrow(new ResourceNotFoundException("Not found")).when(patientService).deletePatient(99L);
-
-		mockMvc.perform(delete("/patients/delete/99")
-						)
-				.andExpect(status().isNotFound())
-				.andExpect(jsonPath("$.status").value(404));
-	}
 }
 

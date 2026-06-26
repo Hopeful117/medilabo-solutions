@@ -1,6 +1,6 @@
 package com.Medilabo_solutions.Patient_service;
 
-import io.github.cdimascio.dotenv.Dotenv;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

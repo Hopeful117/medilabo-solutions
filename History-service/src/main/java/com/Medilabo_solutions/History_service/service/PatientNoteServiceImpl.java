@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -32,7 +33,7 @@ public class PatientNoteServiceImpl implements PatientNoteService {
     }
 
     @Override
-    public List <PatientNoteResponseDTO> getHistory(Long patientId) {
+    public List<PatientNoteResponseDTO> getHistory(Long patientId) {
         log.info("Retrieving history for patient ID: {}", patientId);
         List<PatientNote> notes = patientNoteRepository.findByPatientId(patientId);
         return notes.stream()
